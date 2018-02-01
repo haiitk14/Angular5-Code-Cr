@@ -1,0 +1,129 @@
+<div class="container">
+  <div class="card-header">
+      <strong>{{ 'Line' | translate }}</strong>
+      <button type="button" class="btn btn-sm btn-success float-right" [ladda]="laddaSavingLine" (click)="saveLine()">
+        <i class="fa fa-floppy-o"></i> {{'Save'|translate}}
+      </button>
+    </div>
+  <div class="card card-body">
+    <div class="form-group row">
+      <div class="col-md-2">{{'Insulation type'|translate}}</div>
+      <div class="col-md-2">
+        <select name="insulationType" id="insulationType" class="form-control">
+          <option value="5"></option>
+          <option value="1">Polyrethane</option>
+          <option value="2">Super Insulation</option>
+          <option value="0">not insulated</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Insulation Diameter'|translate}} (m) </div>
+      <div class="col-md-2">
+        <select name="diameter" [(ngModel)]="diameterSelected" id="diameter" class="form-control">
+          <option value="0"></option>
+          <option value=""></option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row" name="open1" >
+      <div class="col-md-2">{{'Insulated line'|translate}}</div>
+      <div class="col-md-3">
+        <select name="insulatedLine" class="form-control" >
+          <option value="" selected></option>
+          <option value="">aa</option>
+        </select>
+      </div>
+      <div class="col-md-1">{{'Length'|translate}} </div>
+      <div class="col">
+          <input type="text" style="width:80px;" name="insulatedLineLength" disabled> (m)
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Insulated valves'|translate}}</div>
+      <div class="col-md-3">
+        <select name="insularedValves" class="form-control">
+          <option value="" selected></option>
+          <option value=""></option>
+        </select>
+      </div>
+      <div class="col-md-1">{{'Number'|translate}}</div>
+      <div class="col">
+          <input type="text" style="width:80px;" name="insulatedValvesLength" disabled>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Tees'|translate}}</div>
+      <div class="col-md-3">
+        <select name="tees" class="form-control">
+          <option value="" selected></option>
+          <option value=""></option>
+        </select>
+      </div>
+      <div class="col-md-1">{{'Number'|translate}}</div>
+      <div class="col">
+          <input type="text" style="width:80px;" name="teesQuantity"disabled>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Elbows'|translate}}</div>
+      <div class="col-md-3">
+        <select name="elbows"  class="form-control">
+          <option value="" selected></option>
+          <option value=""></option>
+        </select>
+      </div>
+      <div class="col-md-1">{{'Number'|translate}}</div>
+      <div class="col">
+          <input type="text" style="width:80px;" name="elbowsQuantity" disabled>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Non-insulated line'|translate}}</div>
+      <div class="col-md-3">
+        <select name="nonInsulatedLine" class="form-control">
+          <option value="" selected></option>
+          <option value=""></option>
+        </select>
+      </div>
+      <div class="col-md-1">{{'Length'|translate}} </div>
+      <div class="col">
+          <input type="text" style="width:80px;" name="nonInsulatedLineLength" disabled> (m)
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Non-insulated valves'|translate}}</div>
+      <div class="col-md-3">
+        <select name="nonInsulatedValves" class="form-control">
+          <option value="" selected></option>
+          <option value=""></option>
+        </select>
+      </div>
+      <div class="col-md-1">{{'Number'|translate}} </div>
+      <div class="col">
+          <input type="text" style="width:80px;" name="nonInsulatedValvesQuantity" disabled>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Storage tank'|translate}}</div>
+      <div class="col-md-4">
+        <select  name="storgageTank"  class="form-control">
+          <option value="" selected></option>
+          <option value=""></option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Equipment elevation above tank outlet'|translate}}</div>
+      <div class="col-md-3">
+        <input type="text" style="width:100px;" name="height"> (m)
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">{{'Tank pressure'|translate}} </div>
+      <div class="col-md-4">
+        <input type="text" style="width:100px;" name="pressure"> (m)
+      </div>
+    </div>
+  </div>
+</div>

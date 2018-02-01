@@ -1,0 +1,16 @@
+{
+	"STUDIES": "",
+	"CALCULATION MODE": "MODE DE CALCUL",
+	"PRODUCT DEFINITION": "DÉFINITION DU PRODUIT",
+	"PRODUCT COMPONENTS": "",
+	"EDIT PRODUCT": "",
+	"SHAPECODE_1": "Slab (Infinite)",
+	"SHAPECODE_2": "Rectangular Block (Vertical layers)",
+	"SHAPECODE_3": "Rectangular Block (Horizontal layers)",
+	"SHAPECODE_4": "Standing cylinder",
+	"SHAPECODE_5": "Lying cylinder",
+	"SHAPECODE_6": "Sphere (mono or multi components)",
+	"SHAPECODE_7": "Standing concentric cylinder",
+	"SHAPECODE_8": "Lying concentric cylinder",
+	"SHAPECODE_9": "Rectangular block (breaded)"
+}

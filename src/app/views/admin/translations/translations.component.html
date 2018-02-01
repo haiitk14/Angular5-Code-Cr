@@ -1,0 +1,25 @@
+
+<div class="subnav-container text-center pt-3 mb-3">
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+    <button type="button" class="btn btn-outline-secondary" [class.active]="activePage == 'interface'" (click)="openPageInterface()">{{ 'User Interface Labels'|translate }}</button>
+    <button type="button" class="btn btn-outline-secondary" [class.active]="activePage == 'datalabel'" (click)="openPageDataLabel()">{{ 'Data Labels'|translate }}</button>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="container">
+
+    <div class="card product-container">
+      <div class="card-body">
+        <div style="margin-top:10px;" *ngIf="activePage=='interface'">
+
+        </div>
+        <div style="margin-top:10px;" *ngIf="activePage=='datalabel'">
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

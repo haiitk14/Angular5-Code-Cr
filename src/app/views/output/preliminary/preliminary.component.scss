@@ -1,0 +1,23 @@
+#pageHeat{
+    position: relative;
+    min-height: 500px
+}
+#showLoader{
+    background: url(/assets/img/output/loading.gif) no-repeat center center rgba(255,255,255,0.4);
+    position: absolute;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+#showLoaderChange{
+    background: url(/assets/img/output/loading.gif) no-repeat center center rgba(255,255,255,0.4);
+    position: absolute;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none
+}

@@ -1,0 +1,130 @@
+<div class="container" *ngIf="!isLoading">
+    <div class="card" *ngIf="checkcontrolview">
+        <div class="card-header">
+            <strong>{{'The active links correspond to unvalidated screens, please click to complete the screen'|translate}}</strong>
+        </div>
+        <div class="card-body">
+            <ul class="list-group checkcontrol">
+                <div *ngIf="checkcontrolview.definition;else definition_content">
+                    <li class="list-group-item d-flex justify-content-between align-items-center badge-check list-group-item-success">
+                        {{'Definition'|translate}}
+                        <span>
+                            <i class="fa fa-lg fa-check-square-o"></i>
+                        </span>
+                    </li>
+                </div>
+                <ng-template #definition_content>
+                    <a href="javascript:void(0);" [routerLink]="['/input/product']" class="">
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-danger">
+                            {{'Definition'|translate}}
+                            <span>
+                                <i class="fa fa-lg fa-warning"></i>
+                            </span>
+                        </li>
+                    </a>
+                </ng-template>
+                <div *ngIf="checkcontrolview.production;else production_content">
+                    <li class="list-group-item d-flex justify-content-between align-items-center badge-check list-group-item-success">
+                        {{'Product'|translate}}
+                        <span>
+                            <i class="fa fa-lg fa-check-square-o"></i>
+                        </span>
+                    </li>
+                </div>
+                <ng-template #production_content>
+                    <a href="javascript:void(0);" [routerLink]="['/input/product']">
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-danger">
+                            {{'Product'|translate}}
+                            <span>
+                                <i class="fa fa-lg fa-warning"></i>
+                            </span>
+                        </li>
+                    </a>
+                </ng-template>
+                <div *ngIf="checkcontrolview.mesh;else mesh_content">
+                    <li class="list-group-item d-flex justify-content-between align-items-center badge-check list-group-item-success">
+                        {{'Mesh & Initial Temperature'|translate}}
+                        <span>
+                            <i class="fa fa-lg fa-check-square-o"></i>
+                        </span>
+                    </li>
+                </div>
+                <ng-template #mesh_content>
+                    <a href="javascript:void(0);" [routerLink]="['/input/initial']">
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-danger">
+                            {{'Mesh & Initial Temperature'|translate}}
+                            <span>
+                                <i class="fa fa-lg fa-warning"></i>
+                            </span>
+                        </li>
+                    </a>
+                </ng-template>
+                <div *ngIf="checkcontrolview.packing;else packing_content">
+                    <li class="list-group-item d-flex justify-content-between align-items-center badge-check list-group-item-success">
+                        {{'Packing'|translate}}
+                        <span>
+                            <i class="fa fa-lg fa-check-square-o"></i>
+                        </span>
+                    </li>
+                </div>
+                <ng-template #packing_content>
+                    <a href="javascript:void(0);" [routerLink]="['/input/packing']">
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-danger">
+                            {{'Packing'|translate}}
+                            <span>
+                                <i class="fa fa-lg fa-warning"></i>
+                            </span>
+                        </li>
+                    </a>
+                </ng-template>
+                <div *ngIf="checkcontrolview.equipment;else equipment_content">
+                    <li class="list-group-item d-flex justify-content-between align-items-center badge-check list-group-item-success">
+                        {{'Equipment'|translate}}
+                        <span>
+                            <i class="fa fa-lg fa-check-square-o"></i>
+                        </span>
+                    </li>
+                </div>
+                <ng-template #equipment_content>
+                    <a href="javascript:void(0);" [routerLink]="['/input/equipment']">
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-danger">
+                            {{'Equipment'|translate}}
+                            <span>
+                                <i class="fa fa-lg fa-warning"></i>
+                            </span>
+                        </li>
+                    </a>
+                </ng-template>
+                <div *ngIf="checkcontrolview.pipeenable">
+                    <div *ngIf="checkcontrolview.pipeline;else pipeline_content">
+                        <li class="list-group-item d-flex justify-content-between align-items-center badge-check list-group-item-success">
+                            {{'PipeLine'|translate}}
+                            <span>
+                                <i class="fa fa-lg fa-check-square-o"></i>
+                            </span>
+                        </li>
+                    </div>
+                    <ng-template #pipeline_content>
+                        <a href="javascript:void(0);" [routerLink]="['/input/line']">
+                            <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-danger">
+                                {{'PipeLine'|translate}}
+                                <span>
+                                    <i class="fa fa-lg fa-warning"></i>
+                                </span>
+                            </li>
+                        </a>
+                    </ng-template>
+                </div>
+            </ul>
+        </div>
+        <div *ngIf="checkcontrol">
+            <div class="card-footer text-center" *ngIf="checkcontrol.checkcontrol">
+                <button class="btn btn-primary btn-lg text-uppercase" (click)="calculator.open()">
+                    <i class="fa fa-calculator"></i> {{'Calculate'|translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-calculator #calculator></app-calculator>
+<app-spinner *ngIf="isLoading"></app-spinner>

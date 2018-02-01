@@ -1,0 +1,241 @@
+<div class="pt-3 mb-3"></div>
+<div class="container-fluid">
+  <div class="container">
+    <div class="card product-container">
+      <div class="card-body">
+        <div style="margin-top:10px;">
+          <div class="card">
+            <div class="card-header">
+              <strong>{{ 'UNITS MANAGEMENT'|translate }}</strong>
+            </div>
+            <div class="card-body">
+              <ng-template #showLoader>
+                <div class="text-center" id="showLoader"></div>
+              </ng-template>
+              <table class="table table-bordered table-sm mb-0 text-center" *ngIf="listUnit;else showLoader">
+                <thead>
+                  <tr>
+                    <th rowspan="2" width="35%" style="vertical-align: center;">{{ 'Value type'|translate }}</th>
+                    <th width="20%">{{ 'Kernel reference'|translate }}</th>
+                    <th colspan="3" width="45%">{{ 'Units references'|translate }}</th>
+                  </tr>
+                  <tr>
+                    <td>Symbol</td>
+                    <td>Symbol</td>
+                    <td>A</td>
+                    <td>B</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="kernelMonetary && monetary">
+                    <td style="vertical-align: middle">
+                    <a href="javascript:void(0)" (click)="onModalValuePrice()">{{'Price'|translate}}</a>
+                    </td>
+                    <td [innerHTML]="kernelMonetary.MONEY_SYMB" style="vertical-align: middle"></td>
+                    <td>
+                      <select name="monetary" [(ngModel)]="priceMoneySelect" class="form-control" *ngIf="monetary">
+                        <ng-container *ngFor="let item of monetary">
+                          <option [value]="item.ID_MONETARY_CURRENCY" [innerHTML]="item.MONEY_SYMB"></option>
+                        </ng-container>
+                      </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr *ngFor="let unit of listUnit, let i = index">
+                    <td style="vertical-align: middle">
+                      <a href="javascript:void(0)" (click)="onModalValueUnit(i)">{{unit.name|translate}}</a>
+                    </td>
+                    <td style="vertical-align: middle">{{unit.SYMBOL}}</td>
+                    <td>
+                      <select (change)="loadSymbol(i, $event.target.value)" class="form-control">
+                        <ng-container *ngFor="let item of unit.symbolSelect">
+                          <option [value]="item.SYMBOL">{{item.SYMBOL}}</option>
+                        </ng-container>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="text" *ngIf="symbolSelectCoeffA[i] != ''" [value]="symbolSelectCoeffA[i]" class="form-control" disabled />
+                    </td>
+                    <td>
+                      <input type="text" *ngIf="symbolSelectCoeffB[i] != ''" [value]="symbolSelectCoeffB[i]" class="form-control" disabled />                       
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer text-center">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal  -->
+<div bsModal class="modal modal-primary fade" #modalValuePrice="bs-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>  {{ 'ADD or MODIFY UNIT'|translate }}</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalValuePrice.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body col-md-12">
+        <div class="form-group text-center ">
+          <label class="col-md-3 col-form-label "><strong>{{ 'Value type'|translate }} : </strong> {{'PRICE'|translate}} </label>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-4"></div>
+          <div class="col-md-2" align="center" >
+              <label class="custom-control custom-radio" >
+                <input type="radio" class="custom-control-input" name="modifyPrice" [value]="0" [(ngModel)]="modifyPrice" (change)="showPriceForm('new')">{{ 'New'|translate }}
+                <span class="custom-control-indicator"></span>
+              </label>
+          </div>
+          <div class="col-md-2" align="center" >
+              <label class="custom-control custom-radio" >
+                <input type="radio" class="custom-control-input" name="modifyPrice" [value]="1" [(ngModel)]="modifyPrice" (change)="showPriceForm('modify')">{{ 'Modify' | translate }}
+                <span class="custom-control-indicator"></span>
+              </label>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="showModifyPrice == true">
+            <table class="table table-bordered table-sm mb-0 text-center" >
+              <thead>
+                <tr>
+                  <th width="50%">{{ 'Text'|translate }}</th>
+                  <th>{{ 'Symbol'|translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td align="center" style="vertical-align:middle" *ngIf="priceText">
+                    <input type="text" name="priceText" [(ngModel)]="priceText" class="form-control">
+                  </td>
+                  <td align="center" *ngIf="priceSymbol">
+                    <input type="text" name="priceSymbol" [(ngModel)]="priceSymbol" class="form-control">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div class="col-md-12" *ngIf="showNewPrice == true">
+            <table class="table table-bordered table-sm mb-0 text-center" >
+              <thead>
+                <tr>
+                  <th>{{ 'Text'|translate }}</th>
+                  <th>{{ 'Symbol'|translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td align="center">
+                      <input type="text" name="priceTextNew" [(ngModel)]="priceTextNew" class="form-control">
+                  </td>
+                  <td align="center">
+                    <input type="text" name="priceSymbolNew" [(ngModel)]="priceSymbolNew" class="form-control">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div class="col-md-12" style="margin-top: 20px;">
+          <p>Y (new unit) = A*X (reference unit) + B</p>
+          <p>X (reference unit) = (Y (new unit) - B) / A</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" (click)="modalValuePrice.hide()">{{ 'Cancel'|translate }}</button>
+        <button class="btn btn-primary" (click)="savePrice()">{{ 'Confirm'|translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal class="modal modal-primary fade" #modalValueUnit="bs-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>  {{ 'ADD or MODIFY UNIT'|translate }}</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalValueUnit.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body col-md-12">
+        <div class="form-group text-center ">
+          <label class="col-md-6 col-form-label "><strong>{{ 'Value type'|translate }} : </strong> {{valueUnitName|translate}} </label>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-4"></div>
+          <div class="col-md-2" align="center" >
+              <label class="custom-control custom-radio" >
+                <input type="radio" class="custom-control-input" name="statusComp" [value]="0" [(ngModel)]="modifyUnit" (change)="showUnitForm('new')">{{ 'New'|translate }}
+                <span class="custom-control-indicator"></span>
+              </label>
+          </div>
+          <div class="col-md-2" align="center" >
+              <label class="custom-control custom-radio" >
+                <input type="radio" class="custom-control-input" name="statusComp" [value]="1" [(ngModel)]="modifyUnit" (change)="showUnitForm('modify')">{{ 'Modify' | translate }}
+                <span class="custom-control-indicator"></span>
+              </label>
+          </div>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-bordered table-sm mb-0 text-center" >
+              <thead>
+                <tr>
+                  <th>{{ 'Symbol'|translate }}</th>
+                  <th>A</th>
+                  <th>B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="showModifyUnit== true">
+                  <td align="center" style="vertical-align:middle">
+                    <input type="text" *ngIf="unitKernal == false;else valueKernalSymbol" [(ngModel)]="valueUnitSymbol" class="form-control">
+                    <ng-template #valueKernalSymbol>
+                      <span style="display:inline-block;line-height:35px">{{valueUnitSymbol}}</span>
+                    </ng-template>
+                  </td>
+                  <td align="center" style="vertical-align:middle">
+                    <input type="text" *ngIf="unitKernal == false;else valueKernalCoeffA" [(ngModel)]="valueUnitCoeffA" class="form-control">
+                    <ng-template #valueKernalCoeffA>
+                      <span style="display:inline-block;line-height:35px">{{valueUnitCoeffA}}</span>
+                    </ng-template>
+                  </td>
+                  <td align="center" style="vertical-align:middle">
+                    <input type="text" *ngIf="unitKernal == false;else valueKernalCoeffB"  [(ngModel)]="valueUnitCoeffB" class="form-control">
+                    <ng-template #valueKernalCoeffB>
+                      <span style="display:inline-block;line-height:35px">{{valueUnitCoeffB}}</span>
+                    </ng-template>
+                  </td>
+                </tr>
+                <tr *ngIf="showNewUnit == true">
+                  <td align="center">
+                    <input type="text" [(ngModel)]="newUnitSymbol" class="form-control">
+                  </td>
+                  <td align="center">
+                    <input type="text" [(ngModel)]="newUnitCoeffA" class="form-control">
+                  </td>
+                  <td align="center">
+                    <input type="text" [(ngModel)]="newUnitCoeffB" class="form-control">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div class="col-md-12" style="margin-top: 20px;">
+          <p>Y (new unit) = A*X (reference unit) + B</p>
+          <p>X (reference unit) = (Y (new unit) - B) / A</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" (click)="modalValueUnit.hide()">{{ 'Cancel'|translate }}</button>
+        <button class="btn btn-primary" *ngIf="unitKernal == false || modifyUnit == 0" (click)="saveUnit()">{{ 'Confirm'|translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+  

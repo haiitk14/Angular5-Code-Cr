@@ -1,0 +1,167 @@
+<div class="container" style="margin-top: 20px;" *ngIf="!isLoading">
+  <div class="card product-container">
+    <div class="card-header">
+      
+      <button type="button" class="btn btn-sm btn-success float-right" (click)="saveUnits()" [ladda]="isSave">
+        <i class="fa fa-floppy-o"></i> {{'Save'|translate}}
+      </button>
+      <button type="button" class="btn btn-sm btn-danger float-right" style="margin-right: 10px;" (click)="modalChangePassword.show()">
+          <i class="fa fa-lock"></i> {{'Change password'|translate}}
+        </button>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h6 class="card-title"><strong>{{ 'Language and monetary units'|translate }}</strong></h6>
+          <div class="form-group row">
+              <label class="col-md-4 col-form-label" for="text-input">{{ 'Language'|translate }}</label>
+              <div class="col-md-8" *ngIf="listLang">
+                  <select class="form-control form-control-sm" [(ngModel)]="langue.langId">
+                    <option *ngFor="let lang of listLang" [value]="lang.ID_TRANSLATION">{{ lang.LABEL }}</option>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-md-4 col-form-label" for="text-input">{{ 'Monetary'|translate }}</label>
+              <div class="col-md-8" *ngIf="listMonetary">
+                <select class="form-control form-control-sm" [(ngModel)]="langue.monetaryId">
+                  <option *ngFor="let money of listMonetary" [value]="money.ID_MONETARY_CURRENCY"> {{ money.MONEY_TEXT }}
+                  ( <span [innerHTML]="money.MONEY_SYMB"></span>)</option>
+                </select>
+              </div>
+          </div>
+          <h6 class="card-title"><strong>{{ 'Default selection for equipment page'|translate }}</strong></h6>
+          <div class="form-group row">
+              <label class="col-md-4 col-form-label" for="text-input">{{ 'Type of Refrigeration	'|translate }}</label>
+              <div class="col-md-8" *ngIf="listEnergies">
+                  <select class="form-control form-control-sm" [(ngModel)]="defaultEquip.energyId">
+                    <option value="-1">All</option>
+                    <option *ngFor="let ener of listEnergies" [value]="ener.ID_TRANSLATION">{{ ener.LABEL }}</option>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-md-4 col-form-label" for="text-input">{{ 'Manufacturer'|translate }}</label>
+              <div class="col-md-8" *ngIf="listConstructors">
+                <select class="form-control form-control-sm" [(ngModel)]="defaultEquip.construct">
+                  <option value="">All</option>
+                  <option *ngFor="let cons of listConstructors" [value]="cons.CONSTRUCTOR">{{ cons.CONSTRUCTOR }}</option>
+                </select>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-md-4 col-form-label" for="text-input">{{ 'Equipment Series	'|translate }}</label>
+              <div class="col-md-8" *ngIf="listFamilies">
+                <select class="form-control form-control-sm" [(ngModel)]="defaultEquip.familyId">
+                  <option value="-1">All</option>
+                  <option *ngFor="let fam of listFamilies" [value]="fam.ID_TRANSLATION">{{ fam.LABEL }}</option>
+                </select>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-md-4 col-form-label" for="text-input">{{ 'Equipment origin	'|translate }}</label>
+              <div class="col-md-8" *ngIf="listOrigines">
+                <select class="form-control form-control-sm" [(ngModel)]="defaultEquip.stdId">
+                    <option value="-1">All</option>
+                    <option *ngFor="let ori of listOrigines" [value]="ori.ID_TRANSLATION">{{ ori.LABEL }}</option>
+                </select>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-md-4 col-form-label" for="text-input">{{ 'Process type	'|translate }}</label>
+              <div class="col-md-8" *ngIf="listProcess">
+                <select class="form-control form-control-sm" [(ngModel)]="defaultEquip.batchProcess">
+                    <option value="-1">All</option>
+                    <option *ngFor="let pro of listProcess" [value]="pro.ID_TRANSLATION">{{ pro.LABEL }}</option>
+                </select>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-md-4 col-form-label" for="text-input">{{ 'Model'|translate }}</label>
+              <div class="col-md-8" *ngIf="listModels">
+                <select class="form-control form-control-sm" [(ngModel)]="defaultEquip.equipseriesId">
+                    <option value="-1">All</option>
+                    <option *ngFor="let model of listModels" [value]="model.ID_TRANSLATION">{{ model.LABEL }}</option>
+                </select>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h6 class="card-title"><strong>{{ 'UNITS'|translate }}</strong></h6>
+            <table class="table table-hover table-sm mb-0 " >
+              <thead>
+                <tr>
+                    <th style="vertical-align:middle;text-align:center" width="50%">{{ 'Type'|translate }}</th>
+                    <th style="vertical-align:middle;text-align:center" width="50%">{{ 'Symbol'|translate }}</th>
+                </tr>
+              </thead>
+              
+                  <tbody>
+                    <td colspan="2">
+                      
+                        <perfect-scrollbar style="max-height: 360px;">
+                            <table *ngIf="listUnits">
+                                <tr *ngFor="let unit of listUnits">
+                                    <td width="50%">{{ unit.nameLabel | translate }}</td>
+                                    <td align="center" width="20%">
+                                        <div *ngIf="unit.listSymbol">
+                                            <select class="form-control form-control-sm" [(ngModel)]="unit.ID_UNIT">
+                                              <option *ngFor="let symbol of unit.listSymbol" value="{{ symbol.ID_UNIT }}">{{ symbol.SYMBOL }}</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                          </perfect-scrollbar>
+                      </td>
+                    
+                  </tbody>
+              
+              
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div bsModal class="modal fade" #modalChangePassword="bs-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-primary" role="document">
+      <div class="modal-content">
+          <div class="modal-header ">
+              <strong>{{ 'Change password'|translate }}</strong>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalChangePassword.hide()">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input"><b>{{ 'Old password'|translate }}</b></label>
+                    <div class="col-md-7">
+                        <input type="password" [(ngModel)]="pass.oldPass" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input"><b>{{ 'New password'|translate }}</b></label>
+                    <div class="col-md-7">
+                        <input type="password" [(ngModel)]="pass.newPass" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input"><b>{{ 'Confirm password'|translate }}</b></label>
+                    <div class="col-md-7">
+                        <input type="password" [(ngModel)]="pass.confPass" class="form-control">
+                    </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal" (click)="modalChangePassword.hide()">{{ 'Cancel'|translate }}</button>
+              <button class="btn btn-success" (click)="changePassword()" [ladda]="isChange"><i class="fa fa-floppy-o"></i> {{ 'Save'|translate }}</button>
+          </div>
+      </div>
+  </div>
+</div>
+<app-spinner *ngIf="isLoading"></app-spinner>

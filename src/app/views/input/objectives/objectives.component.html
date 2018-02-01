@@ -1,0 +1,182 @@
+<div class="container" *ngIf="!isLoading">
+
+    <div class="card" *ngIf="study">
+      <div class="card-header">
+        <strong>{{'CALCULATION MODE'|translate}}</strong>
+      </div>
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-check">
+              <label class="form-check-label">
+                <label class="switch switch-icon switch-pill switch-primary">
+                  <input type="radio" class="switch-input" [(ngModel)]="study.CALCULATION_MODE" value="1" [checked]="study.CALCULATION_MODE == 1">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+                {{'Estimation'|translate}}
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <label class="switch switch-icon switch-pill switch-primary">
+                  <input type="radio" class="switch-input" [(ngModel)]="study.CALCULATION_MODE" value="3" [checked]="study.CALCULATION_MODE == 3">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+                {{'Optimum Equipment'|translate}}
+              </label>
+            </div>
+          </div> <!-- #col-md-6 -->
+          <div class="col-md-6">
+            <div class="form-check">
+              <label class="form-check-label">
+                <label class="switch switch-icon switch-primary-outline-alt">
+                  <input type="checkbox" class="switch-input" [(ngModel)]="study.OPTION_ECO">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+                {{'Economic'|translate}}
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label" [ngClass]="study.CHAINING_CONTROLS == 1?'text-muted':''">
+                <label class="switch switch-icon switch-primary-outline-alt">
+                  <input type="checkbox" class="switch-input" [(ngModel)]="study.OPTION_CRYOPIPELINE" [disabled]="study.CHAINING_CONTROLS == 1">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+                {{'Cryogenic Pipeline'|translate}}
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <label class="switch switch-icon switch-primary-outline-alt">
+                  <input type="checkbox" class="switch-input" [(ngModel)]="study.CHAINING_CONTROLS" (change)="toggleChainControl()">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+                {{'Perform chaining checks'|translate}}
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label" [ngClass]="study.CHAINING_CONTROLS != 1?'text-muted':''">
+                <label class="switch switch-icon switch-primary-outline-alt">
+                  <input type="checkbox" class="switch-input" [(ngModel)]="study.CHAINING_ADD_COMP_ENABLE" [disabled]="study.CHAINING_CONTROLS != 1">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+                {{'Allow adding components in child study'|translate}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div> <!-- /.card-body -->
+      <div class="card-header">
+        <strong>{{'PRODUCTION DUTY CYCLE'|translate}}</strong>
+      </div>
+      <!-- /.card-body -->
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-md-7 col-form-label" for="text-input">Daily production</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input type="text" name="text-input" class="form-control" [(ngModel)]="production.DAILY_PROD">
+                  <span class="input-group-addon">
+                    <small>hours/day</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-7 col-form-label" for="text-input">Weekly production</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input type="text" name="text-input" class="form-control" [(ngModel)]="production.WEEKLY_PROD">
+                  <span class="input-group-addon">
+                    <small>days/week</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-7 col-form-label" for="text-input">Annual production</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input type="text" name="text-input" class="form-control" [(ngModel)]="production.NB_PROD_WEEK_PER_YEAR">
+                  <span class="input-group-addon">
+                    <small>weeks/year</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-7 col-form-label" for="text-input">Number of equipment cooldowns</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input type="text" name="text-input" class="form-control" [(ngModel)]="production.DAILY_STARTUP">
+                  <span class="input-group-addon">
+                    <small>per day</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-md-7 col-form-label" for="text-input">Factory Air temperature</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input type="text" name="text-input" class="form-control" [(ngModel)]="production.AMBIENT_TEMP">
+                  <span class="input-group-addon">
+                    <small>&#8451;</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-7 col-form-label" for="text-input">Relative Humidity of Factory Air</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input type="text" name="text-input" class="form-control" [(ngModel)]="production.AMBIENT_HUM">
+                  <span class="input-group-addon">
+                    <small>%</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-7 col-form-label" for="text-input">Required Average temperature</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input type="text" id="text-input" name="text-input" class="form-control" [(ngModel)]="production.AVG_T_DESIRED">
+                  <span class="input-group-addon">
+                    <small>&#8451;</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-7 col-form-label" for="text-input">Required Production Rate</label>
+              <div class="col-md-5">
+                <div class="input-group">
+                  <input type="text" name="text-input" class="form-control" [(ngModel)]="production.PROD_FLOW_RATE">
+                  <span class="input-group-addon">
+                    <small>kg/h</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>      
+      </div>
+      <!-- /.card-body -->
+      <div class="card-footer text-center">
+        <button type="button" (click)="saveObjectiveView()" class="btn btn-success">{{'SAVE'|translate}}</button>
+      </div><!-- /.card-body -->
+    </div> <!-- /.card -->
+</div><!-- #/container -->
+
+<app-spinner *ngIf="isLoading"></app-spinner>

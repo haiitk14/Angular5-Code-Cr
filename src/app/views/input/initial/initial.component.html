@@ -1,0 +1,218 @@
+<div class="container" *ngIf="productShape != 0 && productView.elements && productView.elements.length>0">
+  <div class="card-group">
+
+      <div class="card">
+        <div class="card-header">
+          <strong>{{'PRODUCT MESH'|translate}}</strong>
+          
+        </div>
+        <div class="card-body" *ngIf="meshView.meshGeneration">
+          <div class="row">
+            <div class="col">
+              <table class="table-bordered table table-sm">
+                <tr>
+                  <th colspan="4" class="text-center">{{'Mesh Parameters'|translate}}</th>
+                </tr>
+                <tr>
+                  <th>{{'Mesh type'}}</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                </tr>
+                <tr>
+                  <td>
+                    <div *ngIf="meshView.meshGeneration.MESH_1_FIXED==1">Regular</div>
+                    <div *ngIf="meshView.meshGeneration.MESH_1_FIXED==0">Irregular</div>
+                  </td>
+                  <td>{{meshView.meshGeneration.MESH_1_INT*1000 | formatNumber: 2}}</td>
+                  <td>{{meshView.meshGeneration.MESH_2_INT*1000 | formatNumber: 2}}</td>
+                  <td>{{meshView.meshGeneration.MESH_3_INT*1000 | formatNumber: 2}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col">              
+              <table class="table-bordered table table-sm">
+                <tr>
+                  <th colspan="4" class="text-center">{{'Mesh Result'|translate}}</th>
+                </tr>
+                <tr>
+                  <th>Dim.</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                </tr>
+                <tr>
+                  <th>#Nodes</th>
+                  <td>{{meshView.meshGeneration.MESH_1_NB}}</td>
+                  <td>{{meshView.meshGeneration.MESH_2_NB}}</td>
+                  <td>{{meshView.meshGeneration.MESH_3_NB}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="text-muted text-center mt-3 col" *ngIf="!meshView.meshGeneration">
+              {{'Product has no mesh yet. Please generate'|translate}}
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer text-center">
+          <button type="button" class="btn btn-sm btn-primary" (click)="generateMesh()" [ladda]="laddaGeneratingMesh">{{'(RE)GENERATE MESH'|translate}}</button>
+          <button type="button" class="btn btn-sm btn-success" (click)="resetDefaultMesh()" [ladda]="laddaGeneratingMesh">{{'DEFAULT MESH'|translate}}</button>
+        </div>
+      </div>
+    
+      <div class="card product-container">
+        <div class="card-header">
+          <strong>{{'PRODUCT INITIAL TEMPERATURE'|translate}}</strong>
+          
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <label class="col-sm-7 col-form-label">{{'Product name'|translate}}</label>
+            <div class="col-sm-5 col-form-label">
+              {{this.productView.product.PRODNAME}}
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-sm-7 col-form-label">{{'Same temperature throughout product'|translate}}</label>
+            <div class="col-sm-5 col-form-label">
+              <i class="fa fa-check-square" *ngIf="this.productView.product.PROD_ISO"></i>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-sm-7 col-form-label">{{'Initial temperature'|translate}} (°C)</label>
+            <div class="col-sm-5 col-form-label" *ngIf="this.meshView.productIsoTemp == null">
+                Product non isothermal
+            </div>
+            <div class="col-sm-5 col-form-label" *ngIf="this.meshView.productIsoTemp != null">
+              {{ this.meshView.productIsoTemp | formatNumber: 2 }}
+            </div>
+          </div>
+          
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer text-center">
+          <button type="button" class="btn btn-sm btn-primary" (click)="editProductTemp()">
+            {{'CHANGE'|translate}}
+          </button>
+          <button type="button" class="btn btn-sm btn-success" (click)="initTemperature()" [ladda]="laddaInitializingTemp">
+            {{'INITIALIZE TEMPERATURE'|translate}}
+          </button>          
+        </div>
+      </div>
+      <!-- /.card -->
+  </div><!-- /.card-group -->
+
+  <div class="card mt-3">
+    <div class="card-header">
+      <strong>{{'PRODUCT COMPONENTS INITIAL TEMPERATURE'|translate}}</strong>
+    </div>
+
+      <table class="table table-bordered table-sm mb-0">
+        <tr>
+          <td align="center"width="40%">{{'Product Component'|translate}}</td>
+          <td align="center"width="25%">{{'Description'|translate}}</td>
+          <td align="center">{{'Same temperature throughout product'|translate}}</td>
+          <td align="center">{{'Initial temperature'|translate}} (°C)</td>
+          <td align="center">{{'Edit'|translate}}</td>
+        </tr>
+        <tr *ngFor="let element of productView.elements;">
+          <td>{{'components.'+element.ID_COMP|translate}}</td>
+          <td>{{ element.PROD_ELMT_NAME }}</td>
+          <td class="text-center">
+            <!-- <i class="fa fa-check-square"></i> -->
+          </td>
+          <td class="text-right">
+            <p class="text-center mb-0">
+              <!-- {{'To be defined'|translate}} -->
+            </p>
+          </td>
+          <td class="text-center">
+            <!-- <button class="btn btn-primary btn-sm mb-0" (click)="showModalInitial.show()"><i class="fa fa-pencil"></i></button> -->
+          </td>
+        </tr>
+      </table>
+
+    <!-- <jqxGrid [theme]='"metro"' #myGrid [width]="'100%'">
+    </jqxGrid> -->
+  </div>
+</div>
+
+<!-- Edit Element Initial Temp Modal -->
+<div class="modal fade" role="dialog" aria-hidden="true" bsModal #showModalInitial="bs-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>PRODUCT COMPONENT</strong>
+        <button type="button" class="close pull-right" aria-label="Close"(click)="showModalInitial.hide()" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p>Product Component</p>
+            <p>Same temperature throughout product.</p>
+            <p>Initial temperature</p>
+          </div>
+          <div class="col-md-6">
+            <p>BEANS - 1.0 (Active)</p>
+            <p>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" name="" id="" class="custom-control-input">
+                <span class="custom-control-indicator"></span>
+              </label>
+            </p>
+            <p><input type="text" name="" id="" style="width:100px;"> (°C)</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-secondary" (click)="showModalInitial.hide()">Cancel</button>
+        <button class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Product Iso Initial Temp Modal -->
+<div class="modal fade" role="dialog" aria-hidden="true" bsModal #isoTempEditModal="bs-modal" *ngIf="productShape != 0 && productView.elements && productView.elements.length>0">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>{{'PRODUCT TEMPERATURE INIT'|translate}}</strong>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="isoTempEditModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <label class="col-sm-7 col-form-label">Product name</label>
+          <div class="col-sm-5 col-form-label">
+            {{this.productView.product.PRODNAME}}
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-7 col-form-label">Same temperature throughout product</label>
+          <div class="col-sm-5 col-form-label">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" name="refContRepConsOverall" id="" [(ngModel)]="productTempForm.flagIsoTemp">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-7 col-form-label">Initial temperature (°C)</label>
+          <div class="col-sm-5 col-form-label">
+            <input type="text" class="form-control" [disabled]="!productTempForm.flagIsoTemp" [(ngModel)]="productTempForm.initTemp">
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-secondary" (click)="isoTempEditModal.hide()">{{'Cancel'|translate}}</button>
+        <button class="btn btn-primary" (click)="saveProductInitTemp()">{{'Confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+

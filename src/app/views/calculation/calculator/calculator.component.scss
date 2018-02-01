@@ -1,0 +1,45 @@
+.txt-estimation {
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.btn-estimation {
+  vertical-align:middle;
+  margin:20px;
+}
+
+#showcalculateloading{
+    background: url(/assets/img/calculator/loading.gif) no-repeat center center rgba(255,255,255,0.4);
+    position: absolute;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.sk-three-bounce {
+  position: absolute;
+}
+
+.processingcalculate{
+    background: url(/assets/img/calculator/waiting.gif) no-repeat center center rgba(255,255,255,0.4);
+    position: absolute;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.progress-calculate {
+  width: 100%;
+}
+.progress-study {
+  width: 100%;
+}
+
+.progress-name {
+  width: 100%;
+}

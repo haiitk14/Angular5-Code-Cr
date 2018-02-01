@@ -1,0 +1,18 @@
+#admin-menu {
+    border-radius: 18px;
+
+    span {
+        display: none;
+    }
+
+    width: 42px;
+    transition: width 0.5s;
+    -webkit-transition: width 0.5s;
+
+    &:hover {
+        span {
+            display: inherit;
+        }
+        width: 160px;
+    }
+}

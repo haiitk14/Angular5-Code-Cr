@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <strong>{{'NEW STUDY'|translate}}</strong>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-7">
+          <small>
+            <strong>{{'STUDY NAME'|translate}}</strong>
+          </small>
+          <div class="form-group row">
+            <div class="col">
+              <input type="text" class="form-control" [(ngModel)]="study.STUDY_NAME" placeholder="Enter new study name">
+            </div>
+          </div>
+          <small>
+            <strong>{{'NOTES'|translate}}</strong>
+          </small>
+          <div class="form-group row">
+            <div class="col">
+              <textarea id="textarea-input" name="textarea-input" rows="10" class="form-control" [(ngModel)]="study.COMMENT_TXT" placeholder="Comments.."></textarea>
+            </div>
+          </div>
+        </div> <!-- #col-md-7 -->
+        <div class="col-md-5">
+          <small>
+            <strong>{{'CALCULATION MODE'|translate}}</strong>
+          </small>
+          <div class="form-check mt-2">
+            <label class="form-check-label">
+              <label class="switch switch-icon switch-pill switch-primary">
+                <input type="radio" class="switch-input" [(ngModel)]="study.CALCULATION_MODE" [value]="1" [checked]="study.CALCULATION_MODE == 1">
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              {{'Estimation'|translate}}
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <label class="switch switch-icon switch-pill switch-primary">
+                <input type="radio" class="switch-input" [(ngModel)]="study.CALCULATION_MODE" [value]="3" [checked]="study.CALCULATION_MODE == 3">
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              {{'Optimum Equipment'|translate}}
+            </label>
+          </div>
+          
+          <small><strong>{{'CALCULATION OPTIONS'|translate}}</strong></small>
+          
+          <div class="form-check mt-2">
+            <label class="form-check-label">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" [(ngModel)]="study.OPTION_ECO">
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              {{'Economic'|translate}}
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label" [ngClass]="study.CHAINING_CONTROLS?'text-muted':''">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" [(ngModel)]="study.OPTION_CRYOPIPELINE" [disabled]="study.CHAINING_CONTROLS">
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              {{'Cryogenic Pipeline'|translate}}
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" [(ngModel)]="study.CHAINING_CONTROLS" (change)="toggleChainControl()">
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              {{'Perform chaining checks'|translate}}
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label" [ngClass]="!study.CHAINING_CONTROLS?'text-muted':''">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" [(ngModel)]="study.CHAINING_ADD_COMP_ENABLE" [disabled]="!study.CHAINING_CONTROLS">
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              {{'Allow adding components in child study'|translate}}
+            </label>
+          </div>
+        </div> <!-- #col-md-5 -->
+      </div>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer text-center">
+      <button class="btn btn-lg btn-primary" (click)="saveStudy()" [ladda]="laddaSavingStudy">{{'SAVE'|translate}}</button>
+    </div>
+  </div>
+  <!-- /.card -->
+</div>

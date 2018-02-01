@@ -1,0 +1,498 @@
+<div class="container" *ngIf="study">
+  <div class="row product-container">
+    <div class="col-md-6" *ngIf="study.OPTION_ECO">
+      <div class="card">
+        <div class="card-header">
+          <strong style="margin-top:5px;margin-left:5px;">{{'PRICE OF THE CRYOGEN' | translate}}</strong>
+          <button type="button" class="btn btn-sm btn-success float-right" (click)="savePrice()" [ladda]="isUpdatePrice">
+            <i class="fa fa-pencil-square-o"></i> {{'Update'|translate}}
+          </button>
+          <button type="button" class="btn btn-sm btn-primary float-right" (click)="refreshPrice()" style="margin-right: 10px;">
+            <i class="fa fa-refresh"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8" style="margin-top:5px;">
+              <p>{{'Define the price of the Cryogen :'|translate}}</p>
+            </div>
+            <div class="col-4">
+              <div class="input-group" style="width:120px;" *ngIf="unitData">
+                <input type="text" name="text-input" class="form-control" [(ngModel)]="unitData.Price" placeholder="0.00">
+                <span class="input-group-addon">
+                  <small [innerHTML]="unitData.MonetarySymbol"></small>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <strong style="margin-top:5px;margin-left:5px;">{{'LOADING RATE' | translate}}
+            <span class="text-muted">{{'Spaces (length and width)'| translate}}</span>
+          </strong>
+          <button type="button" class="btn btn-sm btn-success float-right" (click)="saveInterval()" [ladda]="isUpdateInterval">
+            <i class="fa fa-pencil-square-o"></i> {{'Update'|translate}}
+          </button>
+          <button type="button" class="btn btn-sm btn-primary float-right" (click)="refreshIntervalLW()" style="margin-right: 10px;">
+            <i class="fa fa-refresh"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="row">            
+            <div class="col-md-12">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-5 auto">
+                    <div class="input-group" *ngIf="unitData">
+                      <input type="text" name="text-input" class="form-control" [(ngModel)]="unitData.IntervalLength" placeholder="0.00">
+                      <span class="input-group-addon">
+                        <small>{{ unitData.DimensionSymbol }}</small>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-2 text-center">x</div>
+                  <div class="col-md-5">
+                    <div class="input-group" *ngIf="unitData">
+                      <input type="text" name="text-input" class="form-control" [(ngModel)]="unitData.IntervalWidth" placeholder="0.00">
+                      <span class="input-group-addon">
+                        <small>{{ unitData.DimensionSymbol }}</small>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card product-container">
+   
+    <div class="card-header">
+      <strong>{{'SELECTED EQUIPMENT' | translate}}</strong>
+     
+      <div class="float-right">
+        <button class="btn btn-sm btn-primary" (click)="recalculateEquipment()">
+            {{'Recalculate equipment parameters'|translate}}
+        </button>
+        <button class="btn btn-sm btn-success" data-toggle="modal" (click)="onShowAddEquip()" [ladda]="laddaListingEquipments">
+          <i class="fa fa-plus"></i>
+          {{'Add'|translate}}
+        </button>
+        
+      </div>
+    </div>
+    <table class="table table-bordered table-sm mb-0" *ngIf="equipmentsView">
+      <tr>
+        <th class="text-center align-middle"><small>{{'Calculate'|translate}}</small></th>
+        <th class="text-center align-middle"><small>{{'Name'|translate}}</small></th>
+        <th class="text-center align-middle"><small>{{'Product orientation'|translate}}</small></th>
+        <th class="text-center align-middle"><small>{{'Residence / Dwell time'|translate}} (s)</small></th>
+        <th class="text-center align-middle"><small>{{'Control temperature'|translate}} (°C)</small></th>
+        <th class="text-center align-middle"><small>{{'Convection Setting'|translate}} (Hz)</small></th>
+        <th class="text-center align-middle"><small>{{'Conveyor coverage or quantity of product per batch'|translate}}</small></th>
+        <th class="text-center align-middle"><small>{{'Actions'|translate}}</small></th>
+      </tr>
+      <tr *ngFor="let equip of equipmentsView; let i = index">
+        <td>
+          <label style="margin-left:1.5em;margin-top:0.7em" class="custom-control custom-checkbox">
+            <input type="checkbox" name="" id="" class="custom-control-input">
+            <span class="custom-control-indicator"></span>
+          </label>
+        </td>
+        <td class="text-center align-middle">{{ equip.displayName }}</td>
+        <td class="text-center align-middle">
+          <span *ngIf="equip.ORIENTATION == 0">{{'Perpendicular'|translate}}</span>
+          <span *ngIf="equip.ORIENTATION == 1">{{'Parallel'|translate}}</span>
+        </td>
+        <td class="text-center align-middle">
+          <span class="d-block" *ngFor="let ts of equip.ts">{{ ts | formatNumber:1 }}</span>
+        </td>
+        <td class="text-center align-middle">
+          <span class="d-block" *ngFor="let tr of equip.tr">{{ tr | formatNumber:1 }}</span>
+        </td>
+        <td class="text-center align-middle">
+          <span class="d-block" *ngFor="let vc of equip.vc">{{ vc | formatNumber:1 }}</span>
+        </td>
+        <td class="text-center align-middle">
+          {{ equip.top_or_QperBatch }}
+        </td>
+        <td class="text-center align-middle" width="1%">
+          <div style="margin-top:0.5em; white-space: nowrap">
+            <button type="button" class="btn btn-primary btn-sm" (click)="recalculateEquipment()"><i class="fa fa-th-large"></i></button>
+            <button type="button" class="btn btn-success btn-sm" (click)="recalculateEquipment()"><i class="fa fa-pencil"></i></button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="deleteStudyEquipment(equip ,i)" [ladda]="laddaDeletingStudyEquip[i]"><i class="fa fa-trash"></i></button>
+          </div>  
+        </td>
+      </tr>
+    </table>
+      
+  </div> <!-- /.card -->
+</div>
+
+<div bsModal class="modal fade bd-example-modal-lg" #addEquipModal="bs-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-primary" role="document" style="max-width:80%;" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>{{'EQUIPMENT' | translate}}</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="addEquipModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="equipments">
+        <div class="card-group">
+          <!-- Filter card -->
+          <div class="card" >
+            <div class="card-header" style="text-align:center;">
+              <strong >{{'Selection criteria'|translate}}</strong>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4"> <p>{{'Type of Refrigeration'|translate}}</p></div>
+                <div class="col-8">
+                    <ng-select class="bootstrap" [allowClear]="true" name="energy" ></ng-select>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-4"> <p>{{'Manufacturer'|translate}}</p></div>
+                <div class="col-8">
+                    <ng-select class="bootstrap" [allowClear]="true" name="manufacturer"></ng-select>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col-4"> <p>{{'Equipment Series'|translate}}</p></div>
+                <div class="col-8">
+                    <ng-select class="bootstrap" [allowClear]="true" name="family"></ng-select>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col-4"> <p>{{'Equipment origin'|translate}}</p></div>
+                <div class="col-8">
+                    <ng-select class="bootstrap" [allowClear]="true" name="equip-origin" ></ng-select>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col-4"> <p>{{'Process type'|translate}}</p></div>
+                <div class="col-8">
+                    <ng-select class="bootstrap" [allowClear]="true" name="processType" ></ng-select>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col-4"> <p>{{'Model'|translate}}</p></div>
+                <div class="col-8">
+                    <ng-select class="bootstrap" [allowClear]="true" name="model" ></ng-select>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col-4"> <p>{{'Size'|translate}} (m)</p></div>
+                <div class="col-8">
+                    <ng-select class="bootstrap" [allowClear]="true" name="size" ></ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="card" >
+            <div class="card-header" style="text-align:center;">
+              <div id="equipment-search-box-container">&nbsp;
+                <div class="input-group input-group-sm" id="equipment-search-box">
+                  <input type="text" class="form-control" [(ngModel)]="filterString" placeholder="{{'Search'|translate}}" />
+                  <span>
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <perfect-scrollbar style="max-height:300px;">
+              <div class="list-group" name="add" >
+                <a class="list-group-item list-group-item-action" *ngFor="let equip of equipments"
+                  style="height:30px; padding: 5px 10px;"  name="eid" id="eid" (click)="onSelectAddingEquipment(equip)"
+                  [ngClass]="equip == selectedAddingEquipment? 'active' : ''">
+                    {{equip.EQUIP_NAME}} - {{equip.EQUIP_VERSION}} 
+                  <span *ngIf="equip.EQUIP_RELEASE == 3">({{'Active'|translate}})</span>
+                </a>
+              </div>
+            </perfect-scrollbar>
+          </div>
+            
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" (click)="addEquipModal.hide()">{{'Cancel'|translate}}</button>
+        <button class="btn btn-primary" (click)="onAddEquip()" [ladda]="laddaAddingEquipment">{{'Confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal class="modal fade bd-example-modal-lg" #editModal="bs-modal" role="dialog" aria-hidden="true"  >
+    <div class="modal-dialog modal-primary" role="document" style="max-width:60%;" >
+      <div class="modal-content">
+        <div class="modal-header"><strong >EDIT</strong>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="editModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <tabset>
+            <tab>
+              <ng-template tabHeading><i class="icon-folder-alt"></i> TOC wizard</ng-template>
+              <div style="padding: 5px"><strong >Input :</strong></div>  
+              <div class="row">
+                <div class="col-md-7">
+                  <form class="form-horizontal">
+                    <div class="form-group row">
+                      <div class="col-md-6">Spaces (length x width) (cm)	</div>
+                      <input type="text" name="" id="" class="col-md-2" style="height:30px;" >
+                      <div class="col-md-2"></div>
+                      <input type="text" name="" id=""class="col-md-2" style="height:30px;">
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-md-6">Orientation</div>
+                      <select name="" id="" class="form-control col-md-6"></select>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-md-6">Shelves</div>
+                      <select name="" id="" class="form-control col-md-6"></select>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-md-6">Dimensions (length x width) (m)</div>
+                      <input type="text" name="" id="" class="col-md-2" style="height:30px;" >
+                      <div class="col-md-2"></div>
+                      <input type="text" name="" id=""class="col-md-2" style="height:30px;">
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-md-6">Number of shelves</div>
+                      <input type="text" name="" id="" class="col-md-3" style="height:30px;" >
+                    </div>
+                    <div ></div>
+                  </form>
+                  
+                </div>
+                <div class="col-md-5">
+                  <div style="float:right">
+                    <img src="" width="250" height="250" id="top_show_svg">
+                  </div>
+                      
+                    
+                </div>
+              </div>
+              <div style="padding:10px;"><strong >Output :</strong></div> 
+              <table class="table  table-bordered table-sm"  >
+                <thead>
+                  <tr>
+                    <td align="center"> <strong> Side remaining interval (cm)</strong></td>
+                    <td align="center"><strong> Number per tunnel length</strong></td>
+                    <td align="center"><strong> Number of items in belt width.</strong></td>
+                    <td align="center"><strong> Conveyor coverage or quantity of product per batch</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td align="center" >1</td>
+                    <td align="center">1</td>
+                    <td align="center">1</td>
+                    <td align="center">1</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                <strong style="padding:15px;">Belt coverage <input type="text" name="" id=""style="heigth:30px;width:60px;"> (%)</strong>
+                <div style="float:right;margin-right:20px;" >
+                  <button class="btn btn-md btn-secondary" (click)="editModal.hide()" >Cancel</button>
+                  <button class="btn btn-md btn-primary"  >Confirm</button>
+                </div>
+              </div>
+            </tab>
+            <tab >
+              <ng-template tabHeading><i class="icon-settings"></i> Operating settings</ng-template>
+                <div style="padding:10px;"><strong > Operating Settings</strong></div>
+                <table class="table table-bordered table-sm"  >
+                  <thead>
+                    <tr>
+                      <td align="center"><strong> Residence / Dwell time (s)</strong></td>
+                      <td align="center"><strong> Control temperature (°C) </strong></td>
+                      <td align="center"><strong> Convection Setting (Hz)</strong></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td align="center" >
+                        <input type="text" name="" id=""style="width:80px;height:30px;"><br><br>
+                        <button class="btn btn-sm btn-outline-primary"> >> Compute Control Tempatature</button>
+                      </td>
+                      <td align="center">
+                        <input type="text" name="" id=""style="width:80px;height:30px;"><br><br>
+                        <button class="btn btn-sm btn-outline-primary"> >> Compute Residence/Dwell Time</button>
+                      </td>
+                      <td align="center">
+                          <input disabled style="width:80px;height:30px;"> 
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div style="padding:10px;"><strong > Alpha   Kw/(M².°C)</strong></div>
+                <table class="table table-bordered table-sm" >
+                  <thead>
+                    <tr>
+                      <td align="center"><strong> Top</strong></td>
+                      <td align="center"><strong> Bottom </strong></td>
+                      <td align="center"><strong> Left</strong></td>
+                      <td align="center"><strong> Right </strong></td>
+                      <td align="center"><strong> Front </strong></td>
+                      <td align="center"><strong> Rear </strong></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td align="center" width="17%" >
+                        <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+                          <input type="checkbox" class="custom-control-input" name="cb0" id="" >
+                          <span class="custom-control-indicator"></span>
+                        </label>
+                      </td>
+                      <td align="center" width="17%" >
+                        <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+                          <input type="checkbox" class="custom-control-input" name="cb1" id="" >
+                          <span class="custom-control-indicator"></span>
+                        </label>
+                      </td>
+                      <td align="center" width="17%" >
+                        <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+                          <input type="checkbox" class="custom-control-input" name="cb2" id="" >
+                          <span class="custom-control-indicator"></span>
+                        </label>
+                      </td>
+                      <td align="center" width="17%" >
+                        <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+                          <input type="checkbox" class="custom-control-input" name="cb3" id="" >
+                          <span class="custom-control-indicator"></span>
+                        </label>
+                      </td>
+                      <td align="center" width="17%" >
+                        <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+                          <input type="checkbox" class="custom-control-input" name="cb4" id="" >
+                          <span class="custom-control-indicator"></span>
+                        </label>
+                      </td>
+                      <td align="center" width="17%" >
+                        <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+                          <input type="checkbox" class="custom-control-input" name="cb5" id="" >
+                          <span class="custom-control-indicator"></span>
+                        </label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center">
+                        <input disabled style="width:50px;height:30px;" name="alphavalue0" > 
+                      </td>
+                      <td align="center">
+                        <input disabled style="width:50px;height:30px;" name="alphavalue1" > 
+                      </td>
+                      <td align="center">
+                        <input disabled style="width:50px;height:30px;" name="alphavalue2" > 
+                      </td>
+                      <td align="center">
+                        <input disabled style="width:50px;height:30px;" name="alphavalue3" > 
+                      </td>
+                      <td align="center">
+                        <input disabled style="width:50px;height:30px;" name="alphavalue4" > 
+                    </td>
+                      <td align="center">
+                        <input disabled style="width:50px;height:30px;" name="alphavalue5" > 
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+
+                <div style="padding:10px;"><strong >Gas Temperature</strong></div>
+                <table class="table table-bordered table-sm" style="width:400px;margin-left:15px;" >
+                  <thead>
+                    <tr>
+                      <th style="vertical-align:middle" >Gas temperature</th>
+                      <td align="center">
+                        <input type="text" name="" id=""style="width:80px;height:30px;">
+                        (°C)
+                      </td>
+                      <td align="center">
+                        <button class="btn btn-sm btn-outline-primary" (click)="showPageGas()">...</button>
+                      </td>
+                    </tr>
+                  </thead>
+                </table>
+                <table class="table">
+                  <tr>
+                    <td>
+                      <div style="float:right;margin-right:20px;" >
+                          <button class="btn btn-md btn-secondary" (click)="editModal.hide()" >Cancel</button>
+                          <button class="btn btn-md btn-primary"  >Confirm</button>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+                <div style="display:none;overflow:auto" id="tableGas" >
+                  <div style="padding:10px;">
+                    <strong >Gas temperature - SILVERSAS SENIOR LN2</strong>
+                  </div>
+                  <table class="table table-bordered table-striped table-sm"  >
+                    
+                      <tr>
+                        <td align="center" valign="center"> <strong>Control <br> temperature <br>(°C)</strong> </td>
+                        <td align="center" width="55" style="vertical-align:middle">-150.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-140.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-130.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-120.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-110.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-100.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-90.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-80.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-70.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-60.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-50.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-40.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-30.0</td>
+                      </tr>
+                      <tr>
+                        <td align="center" ><strong>Gas <br> temperature <br>(°C)</strong> </td>
+                        <td align="center" width="55" style="vertical-align:middle">-150.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-140.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-130.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-120.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-110.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-100.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-90.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-80.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-70.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-60.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-50.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-40.0</td>
+                        <td align="center" width="55" style="vertical-align:middle">-30.0</td>
+                      </tr>
+                  </table>
+                </div>
+            </tab>
+          </tabset>
+      </div> 
+    </div>
+  </div>
+</div>
+
+

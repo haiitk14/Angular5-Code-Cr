@@ -1,0 +1,12 @@
+<div class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+  <app-header [showStudy]='"false"'></app-header>
+  <div class="app-body">
+    <app-sidebar [navigation]="nav"></app-sidebar>
+    <main class="main">
+      <div class="">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+  <app-footer></app-footer>
+</div>

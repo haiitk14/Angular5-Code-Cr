@@ -1,0 +1,354 @@
+<div class="container" *ngIf="!isLoading">
+  <div class="card" *ngIf="calculationparametersdef">
+    <div class="card-header">
+      <strong>{{'Seized condition'|translate}}</strong>
+    </div>
+    <div class="card-body">
+      <div class="card-group">
+        <div class="card">
+          <div class="card-header">{{'Activation'|translate}}</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-5">
+                <p>{{'Horizontal'|translate}}</p>
+              </div>
+              <div class="col-md-7">
+                <label class="switch switch-text switch-primary">
+                  <input type="checkbox" id="ishorizScanDef" name="ishorizScanDef" class="switch-input" [checked]="calculationparametersdef.HORIZ_SCAN_DEF == 1"
+                    [(ngModel)]="calculationparametersdef.HORIZ_SCAN_DEF">
+                  <span class="switch-label" data-on="On" data-off="Off"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-5">
+                <p>{{'Vertical'|translate}}</p>
+              </div>
+              <div class="col-md-7">
+                <label class="switch switch-text switch-primary">
+                  <input type="checkbox" id="isVertScanDef" name="isVertScanDef" class="switch-input" [checked]="calculationparametersdef.VERT_SCAN_DEF == 1"
+                    [(ngModel)]="calculationparametersdef.VERT_SCAN_DEF">
+                  <span class="switch-label" data-on="On" data-off="Off"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <p>{{'Max of iterations'|translate}}</p>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <small></small>
+                  </span>
+                  <input type="text" id="maxIter" name="maxIter" class="form-control" [(ngModel)]="calculationparametersdef.MAX_IT_NB_DEF">
+                </div>
+              </div>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                <p>{{'Coef. of relaxation'|translate}}</p>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <small></small>
+                  </span>
+                  <input type="text" id="relaxCoef" name="relaxCoef" class="form-control" [(ngModel)]="calculationparametersdef.RELAX_COEFF_DEF">
+                </div>
+              </div>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                <p>{{'Precision of numerical modelling(%)'|translate}}</p>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <small></small>
+                  </span>
+                  <input type="text" id="precision" name="precision" class="form-control" [(ngModel)]="calculationparametersdef.PRECISION_REQUEST_DEF">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">{{'Temperature to stop (°C)'|translate}}</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <p>{{'Surface'|translate}}</p>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <small></small>
+                  </span>
+                  <input type="text" id="stopTopSurfDef" name="stopTopSurfDef" class="form-control" [(ngModel)]="calculationparametersdef.STOP_TOP_SURF_DEF">
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                <p>{{'Internal'|translate}}</p>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <small></small>
+                  </span>
+                  <input type="text" id="stopIntDef" name="stopIntDef" class="form-control" [(ngModel)]="calculationparametersdef.STOP_INT_DEF">
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                <p>{{'Bottom'|translate}}</p>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <small></small>
+                  </span>
+                  <input type="text" id="stopBottomSurfDef" name="stopBottomSurfDef" class="form-control" [(ngModel)]="calculationparametersdef.STOP_BOTTOM_SURF_DEF">
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                <p>{{'Average'|translate}}</p>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <small></small>
+                  </span>
+                  <input type="text" id="stopAvgDef" name="stopAvgDef" class="form-control" [(ngModel)]="calculationparametersdef.STOP_AVG_DEF">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-header">
+      <strong>{{'Alpha (Kw/(m².°C))'|translate}}</strong>
+    </div>
+    <div class="card-body">
+      <div class="row align-items-start">
+        <div class="col">
+          <label class="col-md-6 col-form-label" for="text-input">{{'Top'|translate}}</label>
+        </div>
+        <div class="col">
+          <label class="col-md-6 col-form-label" for="text-input">{{'Button'|translate}}</label>
+        </div>
+        <div class="col">
+          <label class="col-md-6 col-form-label" for="text-input">{{'Left'|translate}}</label>
+        </div>
+        <div class="col">
+          <label class="col-md-6 col-form-label" for="text-input">{{'Right'|translate}}</label>
+        </div>
+        <div class="col">
+          <label class="col-md-6 col-form-label" for="text-input">{{'Front'|translate}}</label>
+        </div>
+        <div class="col">
+          <label class="col-md-6 col-form-label" for="text-input">{{'Rear'|translate}}</label>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <label class="custom-control custom-checkbox cal-check">
+                <input type="checkbox" class="custom-control-input" id="isStudyAlphaTopFixedDef" name="isStudyAlphaTopFixedDef" [checked]="calculationparametersdef.STUDY_ALPHA_TOP_FIXED_DEF == 1"
+                  [(ngModel)]="calculationparametersdef.STUDY_ALPHA_TOP_FIXED_DEF">
+                <span class="custom-control-indicator"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+                <label class="custom-control custom-checkbox cal-check">
+                  <input type="checkbox" class="custom-control-input" id="isStudyAlphaBottomFixedDef" name="isStudyAlphaBottomFixedDef" 
+                  [checked]="calculationparametersdef.STUDY_ALPHA_BOTTOM_FIXED_DEF == 1"
+                  [(ngModel)]="calculationparametersdef.STUDY_ALPHA_BOTTOM_FIXED_DEF">
+                  <span class="custom-control-indicator"></span>
+                </label>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <label class="custom-control custom-checkbox cal-check">
+                <input type="checkbox" class="custom-control-input" id="isStudyAlphaLeftFixedDef" name="isStudyAlphaLeftFixedDef" 
+                [checked]="calculationparametersdef.STUDY_ALPHA_LEFT_FIXED_DEF == 1"
+                [(ngModel)]="calculationparametersdef.STUDY_ALPHA_LEFT_FIXED_DEF">
+                <span class="custom-control-indicator"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <label class="custom-control custom-checkbox cal-check">
+                <input type="checkbox" class="custom-control-input" id="isStudyAlphaRightFixedDef" name="isStudyAlphaRightFixedDef" 
+                [checked]="calculationparametersdef.STUDY_ALPHA_RIGHT_FIXED_DEF == 1"
+                [(ngModel)]="calculationparametersdef.STUDY_ALPHA_RIGHT_FIXED_DEF">
+                <span class="custom-control-indicator"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <label class="custom-control custom-checkbox cal-check">
+                <input type="checkbox" class="custom-control-input" id="isStudyAlphaFrontFixedDef" name="isStudyAlphaFrontFixedDef" 
+                [checked]="calculationparametersdef.STUDY_ALPHA_FRONT_FIXED_DEF == 1"
+                [(ngModel)]="calculationparametersdef.STUDY_ALPHA_FRONT_FIXED_DEF">
+                <span class="custom-control-indicator"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <label class="custom-control custom-checkbox cal-check">
+                <input type="checkbox" class="custom-control-input" id="isStudyAlphaRearFixedDef" name="isStudyAlphaRearFixedDef"
+                [checked]="calculationparametersdef.STUDY_ALPHA_REAR_FIXED_DEF == 1"
+                [(ngModel)]="calculationparametersdef.STUDY_ALPHA_REAR_FIXED_DEF">
+                <span class="custom-control-indicator"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" id="studyAlphaTopDef" name="studyAlphaTopDef" class="form-control" [(ngModel)]="calculationparametersdef.STUDY_ALPHA_TOP_DEF"
+                [disabled]="calculationparametersdef.STUDY_ALPHA_TOP_FIXED_DEF != 1">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" id="studyAlphaBottomDef" name="studyAlphaBottomDef" class="form-control" [(ngModel)]="calculationparametersdef.STUDY_ALPHA_BOTTOM_DEF"
+                [disabled]="calculationparametersdef.STUDY_ALPHA_BOTTOM_FIXED_DEF != 1">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" id="studyAlphaLeftDef" name="studyAlphaLeftDef" class="form-control" [(ngModel)]="calculationparametersdef.STUDY_ALPHA_LEFT_DEF"
+                [disabled]="calculationparametersdef.STUDY_ALPHA_LEFT_FIXED_DEF != 1">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" id="studyAlphaRightDef" name="studyAlphaRightDef" class="form-control" [(ngModel)]="calculationparametersdef.STUDY_ALPHA_RIGHT_DEF"
+                [disabled]="calculationparametersdef.STUDY_ALPHA_RIGHT_FIXED_DEF != 1">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" id="studyAlphaFrontDef" name="studyAlphaFrontDef" class="form-control" [(ngModel)]="calculationparametersdef.STUDY_ALPHA_FRONT_DEF"
+                [disabled]="calculationparametersdef.STUDY_ALPHA_FRONT_FIXED_DEF != 1">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" id="studyAlphaRearDef" name="studyAlphaRearDef" class="form-control" [(ngModel)]="calculationparametersdef.STUDY_ALPHA_REAR_DEF"
+                [disabled]="calculationparametersdef.STUDY_ALPHA_REAR_FIXED_DEF != 1">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-header">
+      <strong>{{'Step number'|translate}}</strong>
+    </div>
+    <div class="card-body">
+      <div class="row align-items-start">
+        <div class="col">
+          <label class="col-md-7 col-form-label" for="text-input">{{'Storage step'|translate}}</label>
+        </div>
+        <div class="col">
+          <label class="col-md-7 col-form-label" for="text-input">{{'Precision log step'|translate}}</label>
+        </div>
+        <div class="col">
+          <label class="col-md-7 col-form-label" for="text-input">{{'Time step (s)'|translate}}</label>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <small></small>
+              </span>
+              <input type="text" id="storageStepDef" name="storageStepDef" class="form-control" [(ngModel)]="calculationparametersdef.STORAGE_STEP_DEF">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <small></small>
+              </span>
+              <input type="text" id="precisionLogStepDef" name="precisionLogStepDef" class="form-control" [(ngModel)]="calculationparametersdef.PRECISION_LOG_STEP_DEF">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <small></small>
+              </span>
+              <input type="text" id="timeStepDef" name="timeStepDef" class="form-control" [(ngModel)]="calculationparametersdef.TIME_STEP_DEF">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-center">
+      <button type="button" class="btn btn-success" (click)="saveMyCalculationParametersDef()" [ladda]="laddaSavingcalculation">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i> {{'Save'|translate}}</button>
+    </div>
+    <!-- /.card-footer -->
+  </div>
+  <!-- /.card -->
+</div>
+<app-spinner *ngIf="isLoading"></app-spinner>

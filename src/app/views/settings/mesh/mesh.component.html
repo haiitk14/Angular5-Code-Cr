@@ -1,0 +1,54 @@
+<div class="container" *ngIf="!isLoading">
+  <div class="card">
+    <div class="card-header">
+      <strong>{{'Default Mesh sizes (irregular mode)'|translate}}</strong>
+    </div>
+    <div class="card-body" *ngIf="meshparamdef">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 settings">
+          <div class="form-group row">
+            <label class="col-md-7 col-form-label" for="text-input">{{'Dimension 1'|translate}}</label>
+            <div class="col-md-5">
+              <div class="input-group">
+                <input type="text" id="dim1" name="dim1" class="form-control" [(ngModel)]="meshparamdef.MESH_1_SIZE">
+                <span class="input-group-addon">
+                  <small>(mm)</small>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-7 col-form-label" for="text-input">{{'Dimension 2'|translate }}</label>
+            <div class="col-md-5">
+              <div class="input-group">
+                <input type="text" id="dim2" name="dim2" class="form-control" [(ngModel)]="meshparamdef.MESH_2_SIZE">
+                <span class="input-group-addon">
+                  <small>(mm)</small>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-7 col-form-label" for="text-input">{{'Dimension 3'|translate}}</label>
+            <div class="col-md-5">
+              <div class="input-group">
+                <input type="text" id="dim3" name="dim3" class="form-control" [(ngModel)]="meshparamdef.MESH_3_SIZE">
+                <span class="input-group-addon">
+                  <small>(mm)</small>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer text-center">
+      <button type="button" class="btn btn-success" (click)="saveMyMeshParamDef()" [ladda]="laddaSavingMesh">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i> {{'Save'|translate}}</button>
+    </div>
+    <!-- /.card-footer -->
+  </div>
+  <!-- /.card -->
+</div>
+<app-spinner *ngIf="isLoading"></app-spinner>

@@ -1,0 +1,12 @@
+<div *ngIf="subnav" class="subnav-container text-center pt-3 mb-3">
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+    <button type="button" *ngFor="let nav of subnav" [class.active]="router.isActive(nav.url)" class="btn btn-outline-secondary"
+      [routerLink]="nav.url">
+      {{ nav.name }}
+    </button>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <router-outlet></router-outlet>
+</div>

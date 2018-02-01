@@ -1,0 +1,29 @@
+.product-container {
+    a {
+        cursor: pointer;
+    }
+}
+table {
+    td {        
+        a {
+            cursor: pointer !important;
+        }
+    }
+    td.nowrap {
+        white-space: nowrap;
+    }
+}
+
+#components-search-box {
+    position: absolute;
+    top: 8px;
+    left: 5px;
+    width: 97%;
+    span {
+        position: absolute;
+        top: 3px;
+        right: 6px;
+        z-index: 999;
+        color: #a9a9a9;
+    }
+}

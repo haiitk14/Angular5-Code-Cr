@@ -1,0 +1,374 @@
+<div class="container" *ngIf="study">
+
+  <div class="card product-container" *ngIf="(study.CALCULATION_MODE ==1 && headBalanceResultsTr != '') || (study.CALCULATION_MODE !=1 && headBalanceResults != ''); else noResult">
+    <div class="card-header text-center">
+      <div class="btn-group" role="group">
+        <button class="btn btn-outline-primary btn-sm" (click)="openPageHeat()" [class.active]="activePage == 'heat'">{{'Heat Balance'|translate}}</button>
+        <button class="btn btn-outline-primary btn-sm" (click)="openPageCon()"  [class.active]="activePage == 'consumpt'">{{'Consumptions'|translate}}</button>
+        <button class="btn btn-outline-primary btn-sm" (click)="openPageEco()"  [class.active]="activePage == 'economic'" *ngIf="study.OPTION_ECO == 1">{{'Economics'|translate}}</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="margin-top:10px;display:block" id="pageHeat" *ngIf="study">
+        <div class="text-center" id="showLoaderChange"></div>
+        <ng-template #showLoader>
+          <div class="text-center" id="showLoader"></div>
+        </ng-template>
+        <h5 class="text-danger" style="font-weight:600">{{'Heat Balance'|translate}}</h5>
+        <div id="pageHeadBalaceEstimation" *ngIf="study.CALCULATION_MODE == 1">
+            <div class="row" *ngIf="headBalanceResultsTr; else showLoader">
+                <div class="col-md-4" align="center" >
+                    <label class="custom-control custom-radio" >
+                      <input type="radio" class="custom-control-input" name="TR" (change)="openTrPage(2)">{{'Control Temperature 10°C (18°F) colder.'|translate}}
+                      <span class="custom-control-indicator"></span>
+                    </label>
+                </div>
+                <div class="col-md-4" align="center" >
+                    <label class="custom-control custom-radio" >
+                      <input type="radio" class="custom-control-input" name="TR" (change)="openTrPage(1)" checked>{{'Control Temperature'|translate}}
+                      <span class="custom-control-indicator"></span>
+                    </label>
+                </div>
+                <div class="col-md-4" align="center" >
+                    <label class="custom-control custom-radio" >
+                      <input type="radio" class="custom-control-input" name="TR" (change)="openTrPage(0)">{{'Control Temperature 10°C (18°F) warmer.'|translate}}
+                      <span class="custom-control-indicator"></span>
+                    </label>
+                </div>
+            </div>
+            <table class="table table-bordered table-sm" *ngIf="resultAna">
+              <tr *ngIf="symbol && resultAna">
+                <td align="center" style="vertical-align: middle">{{'Required Production Rate'|translate}}</td>
+                <td align="center"><input type="text" name="dailyProductFlow" [(ngModel)]="resultAna.prodFlowRate" style="width:75px;padding:3px 12px"> ({{symbol.productFlowSymbol}})</td>
+                <td align="center" style="vertical-align: middle">{{'Real product mass per unit'|translate}}</td>
+                <td align="center"><input type="text" name="ProductMass" [(ngModel)]="resultAna.prodElmtRealweight" style="width:75px;padding:3px 12px"> ({{symbol.massSymbol}})</td>
+                <td align="center" style="vertical-align: middle">	{{'Initial Average Product temperature'|translate}}</td>
+                <td align="center"><input type="text" name="InitialTemp" [(ngModel)]="resultAna.avgTInitial" style="width:75px;padding:3px 12px"> ({{symbol.temperatureSymbol}})</td>
+              </tr>
+            </table>
+
+            <table class="table table-bordered table-sm" *ngIf="symbol">
+              <tr>
+                <td rowspan="2" align="center" style="vertical-align:middle">{{'Calculate'|translate}}</td>
+                <td rowspan="2" align="center" style="vertical-align:middle">{{'Control temperature'|translate}} ({{symbol.temperatureSymbol}})</td>
+                <td rowspan="2" align="center" style="vertical-align:middle">{{'Product Heat Load'|translate}} ({{symbol.enthalpySymbol}})</td>
+                <td rowspan="2" align="center" style="vertical-align:middle">{{'Final Average Product temperature'|translate}} ({{symbol.temperatureSymbol}})</td>
+                <td colspan="2" align="center" style="vertical-align:middle">{{'Chosen product flowrate'|translate}}</td>
+                <td colspan="3" align="center" style="vertical-align:middle">{{'Maximum product flowrate'|translate}}</td>
+                <td rowspan="2" align="center" style="vertical-align:middle">{{'Precision of the high level calculation'|translate}}. ({{symbol.percentSymbol}})</td>
+              </tr>
+              <tr>
+                <td align="center" style="vertical-align:middle">{{'Cryogen consumption (product + equipment heat load)'|translate}} ({{symbol.consumSymbol}}/{{symbol.perUnitOfMassSymbol}})</td>
+                <td align="center" style="vertical-align:middle">{{'Conveyor coverage or quantity of product per batch'|translate}}</td>
+                <td align="center" style="vertical-align:middle">{{'Hourly production capacity'|translate}} ({{symbol.productFlowSymbol}})</td>
+                <td align="center" style="vertical-align:middle">{{'Cryogen consumption (product + equipment heat load)'|translate}} ({{symbol.consumSymbol}}/{{symbol.perUnitOfMassSymbol}})</td>
+                <td align="center" style="vertical-align:middle">{{'Conveyor coverage or quantity of product per batch'|translate}}</td>
+              </tr>
+              <tr *ngFor="let result of headBalanceResultsTr">
+                <td align="center" class="tdResultLink"style="vertical-align:middle">
+                  <a href="javascript:;" class="tdResultLink" (click)="calculator.openBrain(result.id)">{{result.equipName}}</a>
+                </td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">
+                  <a href="javasript:;" data-toggle="tooltip" data-placement="right" data-html="true" title="">{{result.tr}}</a>
+                  <!-- <button type="button" class="btn btn-outline-secondary" placement="top" html="true" title="1st line of text <br> 2nd line of text">
+                      Tooltip on top
+                  </button> -->
+                  
+                  
+                </td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.vep}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tfp}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.conso}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.toc}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.dhp}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.consoMax}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tocMax}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle"><div *ngIf="result.vc != 'null'">{{result.vc}}</div></td>
+              </tr>
+            </table>
+        </div>
+        <div id="pageHeadBalaceOptimum" *ngIf="study.CALCULATION_MODE == 2 || study.CALCULATION_MODE == 3">
+            <div class="row" *ngIf="headBalanceResults; else showLoader">
+                <div class="col-md-6" align="center" >
+                  <label class="custom-control custom-radio" >
+                    <input type="radio" class="custom-control-input" name="DHP" (change)="openHeadBalacePage()" checked>{{'Chosen product flowrate'|translate}}
+                    <span class="custom-control-indicator"></span>
+                  </label>
+                </div>
+                <div class="col-md-6" align="center" >
+                  <label class="custom-control custom-radio" >
+                    <input type="radio" class="custom-control-input" name="DHP" (change)="openHeadBalaceMaxPage()">￼{{'Maximum product flowrate'|translate}}
+                    <span class="custom-control-indicator"></span>
+                  </label>
+                </div>
+              </div>
+              <table class="table table-bordered table-sm" *ngIf="resultAna">
+                <tr *ngIf="symbol && resultAna">
+                  <td align="center" style="vertical-align: middle">{{'Required Production Rate'|translate}}</td>
+                  <td align="center"><input type="text" name="dailyProductFlow" [(ngModel)]="resultAna.prodFlowRate" style="width:75px;padding:3px 12px"> ({{symbol.productFlowSymbol}})</td>
+                  <td align="center" style="vertical-align: middle">{{'Real product mass per unit'|translate}}</td>
+                  <td align="center"><input type="text" name="ProductMass" [(ngModel)]="resultAna.prodElmtRealweight" style="width:75px;padding:3px 12px"> ({{symbol.massSymbol}})</td>
+                  <td align="center" style="vertical-align: middle">	{{'Initial Average Product temperature'|translate}}</td>
+                  <td align="center"><input type="text" name="InitialTemp" [(ngModel)]="resultAna.avgTInitial" style="width:75px;padding:3px 12px"> ({{symbol.temperatureSymbol}})</td>
+                </tr>
+              </table>
+
+              <div id="headBalacePage">
+                <table class="table table-bordered table-sm" *ngIf="symbol">
+                  <tr>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Calculate'|translate}}</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Equipment'|translate}}</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Refine'|translate}}</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Control temperature'|translate}} ({{symbol.temperatureSymbol}})</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Residence / Dwell time'|translate}} ({{symbol.timeSymbol}})</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Product Heat Load'|translate}} ({{symbol.enthalpySymbol}})</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Final Average Product temperature'|translate}} ({{symbol.temperatureSymbol}})</td>
+                    <td colspan="3" align="center" style="vertical-align:middle">{{'Chosen product flowrate'|translate}}</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Precision of the high level calculation'|translate}}. ({{symbol.percentSymbol}})</td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="vertical-align:middle">{{'Hourly production capacity'|translate}} ({{symbol.productFlowSymbol}})</td>
+                    <td align="center" style="vertical-align:middle">{{'Cryogen consumption (product + equipment heat load)'|translate}} ({{symbol.consumSymbol}}/{{symbol.perUnitOfMassSymbol}})</td>
+                    <td align="center" style="vertical-align:middle">{{'Conveyor coverage or quantity of product per batch'|translate}}</td>
+                  </tr>
+                  <tr *ngFor="let result of headBalanceResults">
+                    <td align="center" class="tdResultAna" >
+                      <label class="custom-control custom-checkbox" style="margin-left:1.5em;margin-top:0.7em;">
+                        <input type="checkbox" name="cb{{result.id}}" class="custom-control-input" [disabled]="result.calculate == false">
+                        <span class="custom-control-indicator"></span>
+                      </label>
+                    </td>
+                    <td align="center" class="tdResultLink"style="vertical-align:middle">
+                      <a href="javascript:;" class="tdResultLink" (click)="calculator.openRefine(result.id, false, 1)">{{result.equipName}}</a>
+                      <div *ngIf="result.specificSize != ''">
+                        {{'Specific equipment'|translate}}
+                        <div><a href="" style="color:#f00">{{result.specificSize}}</a></div>
+                      </div>
+                    </td>
+                    <td align="center" class="tdResultLink"style="vertical-align:middle">
+                      <button class="btn btn-outline-success" (click)="calculator.openRefine(result.id, true, 2)">
+                        <i class="fa fa-recycle"></i>
+                      </button>
+                    </td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tr}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.ts}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.vep}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tfp}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.dhp}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">
+                        <div *ngIf="result.conso_warning == 'warning_fluid'"><img src="assets/img/output/warning_fluid_overflow.gif" width="30"></div>
+                        <div *ngIf="result.conso_warning == 'warning_dhp'"><img src="assets/img/output/warning_dhp_overflow.gif" width="30"></div>
+                        <div *ngIf="result.conso_warning == 'warning_dhp_value'"><div>{{result.conso}}</div><img src="assets/img/output/warning_dhp_overflow.gif" width="30"></div>
+                        <div *ngIf="result.conso_warning != 'warning_fluid' && result.conso_warning != 'warning_dhp' && result.conso_warning != 'warning_dhp_value'">{{result.conso}}</div>
+                    </td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.toc}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.precision}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div id="headBalaceMaxPage" style=display:none>
+                <table class="table table-bordered table-sm" *ngIf="symbol">
+                  <tr>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Equipment'|translate}}</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Control temperature'|translate}} ({{symbol.temperatureSymbol}})</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Residence / Dwell time'|translate}} ({{symbol.timeSymbol}})</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Product Heat Load'|translate}} ({{symbol.enthalpySymbol}})</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Final Average Product temperature'|translate}} ({{symbol.temperatureSymbol}})</td>
+                    <td colspan="3" align="center" style="vertical-align:middle">{{'Chosen product flowrate'|translate}}</td>
+                    <td rowspan="2" align="center" style="vertical-align:middle">{{'Precision of the high level calculation'|translate}}. ({{symbol.percentSymbol}})</td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="vertical-align:middle">{{'Hourly production capacity'|translate}} ({{symbol.productFlowSymbol}})</td>
+                    <td align="center" style="vertical-align:middle">{{'Cryogen consumption (product + equipment heat load)'|translate}} ({{symbol.consumSymbol}}/{{symbol.perUnitOfMassSymbol}})</td>
+                    <td align="center" style="vertical-align:middle">{{'Conveyor coverage or quantity of product per batch'|translate}}</td>
+                  </tr>
+                  <tr *ngFor="let result of headBalanceMaxResults">
+                    <td align="center" class="tdResultLink"style="vertical-align:middle">
+                      <a href="javascript:;" class="tdResultLink" (click)="calculator.openRefine(result.id, true, 3)">{{result.equipName}}</a>
+                      <div *ngIf="result.specificSize != ''">
+                        {{'Specific equipment'|translate}}
+                        <div><a href="" style="color:#f00">{{result.specificSize}}</a></div>
+                      </div>
+                    </td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tr}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.ts}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.vep}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tfp}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.dhp}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">
+                      <div *ngIf="result.conso == 'warning_fluid'"><img src="assets/img/output/warning_fluid_overflow.gif" width="30"></div>
+                      <div *ngIf="result.conso == 'warning_dhp'"><img src="assets/img/output/warning_dhp_overflow.gif" width="30"></div>
+                      <div *ngIf="result.conso == 'warning_dhp_value'"><div>{{result.conso}}</div><img src="assets/img/output/warning_dhp_overflow.gif" width="30"></div>
+                      <div *ngIf="result.conso != 'warning_fluid' && result.conso != 'warning_dhp' && result.conso != 'warning_dhp_value'">{{result.conso}}</div>
+                    </td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.toc}}</td>
+                    <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.precision}}</td>
+                  </tr>
+                </table>
+              </div>
+
+
+        </div>
+      </div>
+      <div style="display:none;margin-top:10px;" id="pageConsumption">
+          <h5 class="text-danger" style="font-weight:600">{{'Consumptions'|translate}}</h5>
+        <table class="table table-bordered table-sm" style="margin-top:10px;" *ngIf="symbol">
+          <tr>
+            <td rowspan="2" align="center"style="vertical-align:middle;font-size:12px;">{{'Equipment'|translate}}</td>
+            <td rowspan="2"style="vertical-align:middle;font-size:12px;" align="center">
+              {{'Overall Cryogen Consumption Ratio (product + equipment and pipeline losses) Unit of Cryogen, per piece of product.'|translate}} ({{symbol.consumSymbol}})
+            </td>
+            <td rowspan="2" style="vertical-align:middle;font-size:12px;"  align="center">
+              {{'Total Cryogen Consumption (product + equipment and pipeline losses).'|translate}} ({{symbol.consumSymbol}} /{{symbol.perUnitOfMassSymbol}})
+            </td>
+            <td rowspan="2" style="vertical-align:middle;font-size:12px;"  align="center">
+              {{'Specific Cryogen Consumption Ratio (product only) Unit of Cryogen, per unit weight of product.'|translate}} ({{symbol.consumSymbol}} /{{symbol.perUnitOfMassSymbol}})
+            </td>
+            <td colspan="4" style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption'|translate}}</td>
+            <td colspan="2" style="vertical-align:middle;font-size:12px;" align="center">{{'Equipment Cryogen Consumption'|translate}}</td>
+            <td colspan="2" style="vertical-align:middle;font-size:12px;" align="center">{{'Pipeline consumption'|translate}}</td>
+            <td rowspan="2" style="vertical-align:middle;font-size:12px;" align="center">{{'Tank losses'|translate}} ({{symbol.consumSymbol}})</td>
+          </tr>
+          <tr>
+            <td style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption per year'|translate}} ({{symbol.consumSymbol}})</td>
+            <td style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption per week'|translate}} ({{symbol.consumSymbol}})</td>
+            <td style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption per day'|translate}} ({{symbol.consumSymbol}})</td>
+            <td style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption per hour'|translate}} ({{symbol.consumSymbol}})</td>
+            <td style="vertical-align:middle;font-size:12px;" align="center">{{'Heat losses per hour'|translate}} ({{symbol.consumMaintienSymbol}})</td>
+            <td style="vertical-align:middle;font-size:12px;" align="center">{{'Cooldown'|translate}} ({{symbol.mefSymbol}})</td>
+            <td style="vertical-align:middle;font-size:12px;"  align="center">{{'Heat losses per hour'|translate}} ({{symbol.consumMaintienSymbol}})</td>
+            <td style="vertical-align:middle;font-size:12px;" align="center">{{'Cooldown'|translate}} ({{symbol.mefSymbol}})</td>
+          </tr>
+          <tr *ngFor="let result of commonResults">
+              <td align="center" class="tdResultLink"style="vertical-align:middle">
+                <a href="javascript:;" class="tdResultLink" (click)="onConsumptionPie(result)">{{result.equipName}}</a>
+              </td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tc}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.kgProduct}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.product}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.year}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.week}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.day}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.hour}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.eqptPerm}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.eqptCold}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.linePerm}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.lineCold}}</td>
+              <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tank}}</td>
+          </tr>
+        </table>
+      </div>
+      <div style="display:none;margin-top:10px;" id="pageEconomics">
+        <h5 class="text-danger" style="font-weight:600">{{'Economic results'|translate}}</h5>
+        <table class="table table-bordered table-sm" style="margin-top:10px;" *ngIf="symbol">
+            <tr>
+              <td rowspan="2" align="center"style="vertical-align:middle;font-size:12px;">{{'Equipment'|translate}}</td>
+              <td rowspan="2"style="vertical-align:middle;font-size:12px;" align="center">
+                {{'Overall Cryogen Consumption Ratio (product + equipment and pipeline losses) Unit of Cryogen, per piece of product.'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span>)
+              </td>
+              <td rowspan="2" style="vertical-align:middle;font-size:12px;"  align="center">
+                {{'Total Cryogen Consumption (product + equipment and pipeline losses).'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span> /{{symbol.perUnitOfMassSymbol}})
+              </td>
+              <td rowspan="2" style="vertical-align:middle;font-size:12px;"  align="center">
+                {{'Specific Cryogen Consumption Ratio (product only) Unit of Cryogen, per unit weight of product.'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span> /{{symbol.perUnitOfMassSymbol}})
+              </td>
+              <td colspan="4" style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption'|translate}}</td>
+              <td colspan="2" style="vertical-align:middle;font-size:12px;" align="center">{{'Equipment Cryogen Consumption'|translate}}</td>
+              <td colspan="2" style="vertical-align:middle;font-size:12px;" align="center">{{'Pipeline consumption'|translate}}</td>
+              <td rowspan="2" style="vertical-align:middle;font-size:12px;" align="center">{{'Tank losses'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span>)</td>
+            </tr>
+            <tr>
+              <td style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption per year'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span>)</td>
+              <td style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption per week'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span>)</td>
+              <td style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption per day'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span>)</td>
+              <td style="vertical-align:middle;font-size:12px;" align="center">{{'Total Cryogen Consumption per hour'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span>)</td>
+              <td style="vertical-align:middle;font-size:12px;" align="center">{{'Heat losses per hour'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span> /h)</td>
+              <td style="vertical-align:middle;font-size:12px;" align="center">{{'Cooldown'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span>)</td>
+              <td style="vertical-align:middle;font-size:12px;"  align="center">{{'Heat losses per hour'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span> /h)</td>
+              <td style="vertical-align:middle;font-size:12px;" align="center">{{'Cooldown'|translate}}<br>(<span [innerHTML]="symbol.monetarySymbol"></span>)</td>
+            </tr>
+            <tr *ngFor="let result of economicResults">
+                <td align="center" class="tdResultLink"style="vertical-align:middle">
+                  <a href="javascript:;" class="tdResultLink">{{result.equipName}}</a>
+                </td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tc}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.kgProduct}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.product}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.year}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.week}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.day}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.hour}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.eqptPerm}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.eqptCold}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.linePerm}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.lineCold}}</td>
+                <td align="center" class="tdResultAna"style="vertical-align:middle">{{result.tank}}</td>
+            </tr>
+          </table>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResult>
+    <div class="card" *ngIf="checkcontrol">
+      <div class="card-body text-center text-muted" *ngIf="checkcontrol.checkcontrol;else isCheckControl">
+        <p>{{'No data to display'|translate}}</p>
+        <div style="padding-top:10px">
+          <button class="btn btn-primary btn-lg text-uppercase" (click)="calculator.open()">{{'Calculate'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #isCheckControl>
+    <div class="card">
+      <div class="card-body text-center text-muted">
+        <p>{{'No data to display'|translate}}</p>
+        <div style="padding-top:10px">
+          <button class="btn btn-primary btn-lg text-uppercase" disabled>{{'Calculate'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
+
+<div bsModal class="modal fade" #consumptionPieModal="bs-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="chartPieData">
+        <div class="text-center" style="width:100%">
+            <h5 class="text-danger" style="font-weight:600">{{chartPieData.name}}</h5>
+        </div>
+        <button class="close" arria-label="Close" data-dismiss="modal" (click)="consumptionPieModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="chart-wrapper" *ngIf="pieData && displayPie == true">
+          <canvas #myChart baseChart class="chart"
+          [datasets]="pieData"
+          [labels]="pieLabels"
+          [colors]="pieColours"
+          [options]="pieOptions"
+          [chartType]="pieChartType"></canvas>
+        </div>
+        <div class="chart-wrapper" *ngIf="pieDataNone && displayPie == false">
+            <canvas baseChart class="chart"
+            [datasets]="pieDataNone"
+            [labels]="pieLabelsNone"
+            [colors]="pieColoursNone"
+            [options]="pieOptionsNone"
+            [chartType]="pieChartTypeNone"></canvas>
+          </div>
+        <div class="text-center" style="margin-top: 25px;margin-bottom:10px">
+            <input type="checkbox" name="report_pie" value="1" style="margin:0;margin-right: 5px;vertical-align: middle"><span style="vertical-align: middle">Add this graph to the report</span>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-secondary btn-sm" (click)="closePie()">{{'Close'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-calculator #calculator (finishCalculate)="onFinishCalculate()"></app-calculator>

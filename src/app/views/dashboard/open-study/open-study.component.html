@@ -1,0 +1,127 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card" id="study-list-card">
+        <div class="card-header">
+          <strong>{{'STUDIES'|translate}}</strong>
+          <div id="study-search-box-container">
+            <div class="input-group input-group-sm" id="study-search-box">
+              <input type="text" class="form-control" [(ngModel)]="filterString" placeholder="{{'Search'|translate}}" />
+              <span>
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <perfect-scrollbar style="max-height: 500px;">
+          <div class="list-group" *ngIf="studies">
+            <!-- mine -->
+            <h6 class="dropdown-header">MINE</h6>
+            <a *ngFor="let study of (studies.mine | filter: filterString)" class="list-group-item list-group-item-action" [ngClass]="study == selectedStudy? 'active' : ''" (click)="onSelect(study)">
+              <div class="d-flex w-100 justify-content-between">
+                {{study.STUDY_NAME}}
+                <small>{{study.USERNAM}}</small>
+              </div>
+            </a>
+            <!-- others -->
+            <h6 class="dropdown-header">OTHER</h6>
+            <a *ngFor="let study of (studies.others | filter: filterString)" class="list-group-item list-group-item-action" [ngClass]="study == selectedStudy? 'active' : ''"
+              (click)="onSelect(study)">
+              <div class="d-flex w-100 justify-content-between">
+                {{study.STUDY_NAME}}
+                <small>{{study.USERNAM}}</small>
+              </div>
+            </a>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+  
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>FILTERS</strong>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              Who
+              <ng-select class="bootstrap" [options]="filterUsers" [allowClear]="true"></ng-select>
+            </div>
+            <div class="col-md-6">
+              Component family
+              <ng-select class="bootstrap" [options]="filterUsers" [allowClear]="true"></ng-select>
+            </div>
+            <div class="col-md-6">
+              Sub family
+              <ng-select class="bootstrap" [options]="filterUsers" [allowClear]="true"></ng-select>
+            </div>
+            <div class="col-md-6">
+              Component list
+              <ng-select class="bootstrap" [options]="filterUsers" [allowClear]="true"></ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <strong>SELECTED STUDY</strong>
+        </div>
+        <div class="card-body">
+          <ng-template #noSelectedStudy>
+            <div class="text-muted text-center" style="min-height: 200px;padding-top:90px;">
+              Please select a study from the list before process to calculation.
+            </div>
+          </ng-template>
+          <div *ngIf="selectedStudy; else noSelectedStudy">
+            <table class="table table-hover table-striped">
+              <tr>
+                <th>Study Name</th>
+                <td>{{ selectedStudy.STUDY_NAME }}</td>
+              </tr>
+              <tr>
+                <th>Owner</th>
+                <td>{{ selectedStudy.USERNAM }}</td>
+              </tr>
+              <tr>
+                <th colspan="2">Comment</th>              
+              </tr>
+              <tr>
+                <td colspan="2" [innerHTML]="selectedStudy.COMMENT_TXT | nl2br"></td>
+              </tr>
+               
+            </table>
+          </div>
+        </div>
+          
+        <div class="card-footer text-center" *ngIf="selectedStudy">
+          <button type="button" class="btn btn-danger" (click)="deleteStudy()" [ladda]="laddaDeletingStudy"><i class="fa fa-trash-o"></i> {{'Delete'|translate}}</button>
+            <button type="button" class="btn btn-info" (click)="chainStudy()"><i class="fa fa-chain"></i> {{'Chaining'|translate}}</button>
+            <button type="button" class="btn btn-secondary" (click)="modalSaveAs.show()" [ladda]="laddaSaveStudyAs"><i class="fa fa-copy"></i> {{'Save As'|translate}}</button>
+            <button type="button" class="btn btn-primary" (click)="openStudy()"><i class="fa fa-folder-open-o"></i> {{'Open'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal class="modal fade" #modalSaveAs="bs-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>{{'SAVE AS'|translate}}</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalSaveAs.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div align="center" class="labelSaveAs">{{'ENTER A NEW NAME'|translate}}</div>
+              <input class="form-control" type="text" [(ngModel)]="name" placeholder="Study Name">
+      </div><!-- modal-body -->
+      <div class="modal-footer">
+        <button  class="btn btn-secondary" data-dismiss="modal" (click)="modalSaveAs.hide()">Cancel</button>
+        <button class="btn btn-primary" (click)="saveStudyAs()" >Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

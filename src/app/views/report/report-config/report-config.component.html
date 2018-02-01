@@ -1,0 +1,531 @@
+<div class="container">
+  <div class="card product-container">
+    <div class="card-header">
+      <strong>{{ 'HEAT BANLANCE' | translate }}</strong>
+    </div>
+    <div class="card-body">
+      <strong style="padding:10px;">Customisation</strong>
+      <table class="table table-bordered table-sm" style="margin-top:10px;">
+        <tr>
+          <td>
+            <form action="" class="form-horizontal" style="margin:10px 0px 0px 10px;">
+              <div class="form-group row">
+                <strong class="col-md-3">Customer</strong>
+              </div>
+              <div class="form-group row">
+                <p class="col-md-4">Company name</p>
+                <div class="col-md"> 
+                  <input type="text" name="refContRepDestSurname" id="" class="form-control" style="height:30px;">
+                </div>
+              </div>
+              <div class="form-group row">
+                <p class="col-md-4">Surname / Name</p>
+                <div class="col-md"> 
+                  <input type="text" name="refContRepDestName" id="" class="form-control"style="height:30px;">
+                </div>
+              </div>
+              <div class="form-group row">
+                <p class="col-md-4">Function</p>
+                <div class="col-md"> 
+                  <input type="text" name="refContRepDestFunction" id="" class="form-control"style="height:30px;">
+                </div>
+              </div>
+              <div class="form-group row">
+                <p class="col-md-4">Contact</p>
+                <div class="col-md"> 
+                  <input type="text" name="refContRepDestCoord" id="" class="form-control"style="height:30px;">
+                </div>
+              </div>
+            </form>
+          </td>
+          <td>
+            <form action="" class="form-horizontal"style="margin:10px 0px 0px 10px;">
+              <div class="form-group row">
+                <strong class="col-md-4">Study realized by</strong>
+              </div>
+              <div class="form-group row">
+                <p class="col-md-4">Company name</p>
+                <div class="col-md"> 
+                  <input type="text" name="refContRepWriterSurname" id="" class="form-control" style="height:30px;">
+                </div>
+              </div>
+              <div class="form-group row">
+                <p class="col-md-4">Surname / Name</p>
+                <div class="col-md"> 
+                  <input type="text" name="refContRepWriterName" id="" class="form-control"style="height:30px;">
+                </div>
+              </div>
+              <div class="form-group row">
+                <p class="col-md-4">Function</p>
+                <div class="col-md"> 
+                  <input type="text" name="refContRepWriterFunction" id="" class="form-control"style="height:30px;">
+                </div>
+              </div>
+              <div class="form-group row">
+                <p class="col-md-4">Contact</p>
+                <div class="col-md"> 
+                  <input type="text" name="refContRepWriterCoord" id="" class="form-control"style="height:30px;">
+                </div>
+              </div>
+            </form>
+          </td>
+        </tr>
+      </table>
+      <table class="table table-bordered table-sm">
+        <tr>
+          <td align="center" width="25%" ><strong>Customer's logo</strong></td>
+          <td align="center" width="25%"><strong>First page image</strong></td>
+          <td align="center" width="50%"><strong>Last page comment</strong></td>
+        </tr>
+        <tr>
+          <td align="center">
+              <img src="" width="100" height="100"><br><br>
+              <button class="btn btn-primary btn-sm">Change</button>
+          </td>
+          <td align="center">
+            <img src="" width="100" height="100"><br><br>
+            <button class="btn btn-primary btn-sm">Change</button>
+          </td>
+          <td align="center" valign="center">
+            <textarea name="refContRepReportComment" id="" cols="50" rows="6"></textarea>
+          </td>
+        </tr>
+      </table>
+      <strong style="padding:5px;"> Input data</strong>
+      <table class="table table-bordered table-sm" style="margin-top:10px;">
+        <tr>
+          <td>
+            <strong>Product</strong><br>
+            <label class="form-checkbox-label"style="padding:10px 0px 0px 20px;">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" name="refContRepProdList" checked>
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              Components list
+            </label><br>
+            <label class="form-checkbox-label"style="padding:10px 0px 0px 20px;">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" name="refContRepProd3D" checked>
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              Product 3D
+            </label>
+          </td>
+          <td>
+            <strong>Equipment</strong><br>
+            <label class="form-checkbox-label" style="padding:10px 0px 0px 20px;">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" name="refContRepEquipList" checked>
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              Equipment list
+            </label><br>
+            <label class="form-checkbox-label"style="padding:10px 0px 0px 20px;">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" name="refContRepLayout" checked>
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              Belt or shelves layout
+            </label>
+          </td>
+          <td>
+            <strong>Other inputs</strong><br>
+            <label class="form-checkbox-label"style="padding:10px 0px 0px 20px;">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" name="refContRepCustomer" checked>
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              Production
+            </label><br>
+            <label class="form-checkbox-label"style="padding:10px 0px 0px 20px;">
+              <label class="switch switch-icon switch-primary-outline-alt" >
+                <input type="checkbox" class="switch-input" name="refContRepPacking" checked>
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              Packing data
+            </label><br>
+            <label class="form-checkbox-label"style="padding:10px 0px 0px 20px;">
+              <label class="switch switch-icon switch-primary-outline-alt">
+                <input type="checkbox" class="switch-input" name="refContRepPipeLine" checked>
+                <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                <span class="switch-handle"></span>
+              </label>
+              Pipeline Elements
+            </label>
+          </td>
+        </tr>
+      </table>
+      <strong style="padding:5px;">Calculation Output</strong>
+      <table class="table table-bordered table-sm" style="margin-top:10px;">
+        <tr>
+          <td colspan="11"><strong>Consumption & Prices</strong></td>
+        </tr>
+        <tr>
+          <td align="center" style="vertical-align:middle">
+            Overall Cryogen Consumption Ratio (product + equipment and pipeline losses) Unit of Cryogen, per piece of product.
+            (kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Total Cryogen Consumption (product + equipment and pipeline losses).(kg/kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Specific Cryogen Consumption Ratio (product only) Unit of Cryogen, per unit weight of product.(kg/kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Total Cryogen Consumption per hour (kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Total Cryogen Consumption per day (kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Total Cryogen Consumption per week (kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Total Cryogen Consumption per month (kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Total Cryogen Consumption per year (kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Equipment Cryogen Consumption (kg)	
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Pipeline consumption (kg)
+          </td>
+          <td align="center" style="vertical-align:middle">
+            Tank losses (kg)
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsOverall" id="" checked>
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsTotal" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsSpecific" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsHour" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsDay" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsWeek" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsMonth" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsYear" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsEquip" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsPipe" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+          <td align="center">
+            <label class="custom-control custom-checkbox" style="margin-left:1.5em" >
+              <input type="checkbox" class="custom-control-input" name="refContRepConsTank" id="">
+              <span class="custom-control-indicator"></span>
+            </label>
+          </td>
+        </tr>
+      </table>
+      <table class="table table-bordered table-sm">
+        <tr>
+          <td>
+            <form class="form form-horizontal">
+              <div class="form-group row">
+                <strong class="col-md-3">Sizing & Thermal Results</strong>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" name="refContRepSizingValuesChosen" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Values (Chosen product flowrate)
+                  </label>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" name="refContRepSizingValuesMax" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Values (Maximum product flowrate)
+                  </label>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input"  name="refContRepSizingGraphe" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Graph
+                  </label>
+                </div>
+              </div>
+            </form>
+          </td>
+        </tr>
+      </table>
+      <table class="table table-bordered table-sm">
+        <tr>
+          <td>
+            <form class="form form-horizontal">
+              <div class="form-group row">
+                <strong class="col-md-3"> Enthalpies</strong>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Values 
+                  </label>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Graph
+                  </label>
+                </div>
+              </div>
+              <p style="margin-left:10px;">Number of samples <input type="text" name="" id=""></p>
+            </form>
+          </td>
+          <td>
+            <form class="form form-horizontal">
+              <div class="form-group row">
+                <strong class="col-md-4">Product Section</strong>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Values 
+                  </label>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Graph
+                  </label>
+                </div>
+              </div>
+              <p style="margin-left:10px;"> Number of samples <input type="text" name="" id=""></p>
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <form class="form form-horizontal">
+              <div class="form-group row">
+                <strong class="col-md-3">Time Based</strong>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Values 
+                  </label>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                    Graph
+                  </label>
+                </div>
+              </div>
+              <p style="margin-left:10px;">Number of samples <input type="text" name="" id=""></p>
+            </form>
+          </td>
+          <td>
+            <form class="form form-horizontal">
+              <div class="form-group row">
+                <strong class="col-md-4">Contour</strong>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-4">
+                  <label class="form-checkbox-label"style="margin-left:20px;">
+                    <label class="switch switch-icon switch-primary-outline-alt">
+                      <input type="checkbox" class="switch-input" checked>
+                      <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group row" style="margin-left:10px;">
+                <div class="col-md-4">
+                  Temperature step
+                </div>
+                <div class="col-md">
+                  <input type="text" name="" id="" style="width:80px;">
+                  <input type="text" name="" id="" style="width:80px;" disabled>
+                </div>
+              </div>
+              <div class="form-group row"style="margin-left:10px;">
+                <div class="col-md-4">
+                  Temperature Min (°C)
+                </div>
+                <div class="col-md">
+                  <input type="text" name="" id="" style="width:80px;">
+                  <input type="text" name="" id="" style="width:80px;"disabled>
+                </div>
+              </div>
+              <div class="form-group row"style="margin-left:10px;">
+                <div class="col-md-4">
+                  Temperature Max (°C)
+                  </div>
+                  <div class="col-md">
+                    <input type="text" name="" id="" style="width:80px;">
+                    <input type="text" name="" id="" style="width:80px;" disabled>
+                </div>
+              </div>
+            </form>
+          </td>
+        </tr>
+      </table>
+      <table class="table table-bordered table-sm">
+        <tr>
+          <td colspan="3">
+              <strong>Following-up Point (mm)</strong>
+              <button class="btn btn-primary btn-sm" style="float:right;margin-right:50px;"> Selected points</button>
+          </td>
+        </tr>
+        <tr>
+          <td width="50%">
+            <strong >Points</strong>
+            <form action="" class="form form-horizontal" style="padding:10px ;">
+              <div class="form-group row">
+                <div class="col-md-2">Top:</div>
+                <div class="col-md-3">1 <select name="" id="" style="width:80px;"></select></div>
+                <div class="col-md-3">2 <select name="" id="" style="width:80px;"></select></div>
+                <div class="col-md-3">3 <select name="" id="" style="width:50px;"></select></div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">Internal:</div>
+                <div class="col-md-3">1 <select name="" id="" style="width:80px;"></select></div>
+                <div class="col-md-3">2 <select name="" id="" style="width:80px;"></select></div>
+                <div class="col-md-3">3 <select name="" id="" style="width:50px;"></select></div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-2">Bottom:</div>
+                <div class="col-md-3">1 <select name="" id="" style="width:80px;"></select></div>
+                <div class="col-md-3">2 <select name="" id="" style="width:80px;"></select></div>
+                <div class="col-md-3">3 <select name="" id="" style="width:50px;"></select></div>
+              </div>
+            </form>
+          </td>
+          <td width="35%">
+            <strong >Axes</strong>
+            <form action="" class="form form-horizontal" style="padding:10px ;">
+              <div class="form-group row">
+                <div class="col-md-3">Axes 1:</div>
+                <div class="col-md-5">2 <select name="" id="" style="width:70px;"></select></div>
+                <div class="col-md-4">3 <select name="" id="" style="width:50px;"></select></div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-3">Axes 2:</div>
+                <div class="col-md-5">1 <select name="" id="" style="width:70px;"></select></div>
+                <div class="col-md-4">3 <select name="" id="" style="width:50px;"></select></div>
+              </div>
+              
+            </form>
+          </td>
+          <td width="15%">
+            <strong>  Slices </strong>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row">
+              <p class="col-md-6">Slice 12:</p>
+              <p class="col-md-4"> <select name="" id="" style="width:50px;"></select></p>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <button class="btn btn-primary" style="float:right;margin-right:20px;">Generate</button>
+      <div class="btn-group" data-toggle="buttons" >
+        <label class="btn btn-secondary active">
+          <input type="radio" name="" id="" >Format
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="" id="" >PDF
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="" id="" >HTML
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

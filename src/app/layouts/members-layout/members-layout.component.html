@@ -1,0 +1,11 @@
+<div class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+  <app-header></app-header>
+  <div class="app-body">
+    <app-sidebar [navigation]="nav"></app-sidebar>
+    <!-- Main content -->
+    <main class="main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  <app-footer></app-footer>
+</div>

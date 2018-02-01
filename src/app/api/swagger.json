@@ -1,0 +1,461 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "0.0.1",
+    "title" : "CRYOSOFT API"
+  },
+  "host" : "localhost:10010",
+  "basePath" : "/api/v1",
+  "schemes" : [ "http", "https" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "security" : [ {
+    "Bearer" : [ ]
+  } ],
+  "paths" : {
+    "/login" : {
+      "post" : {
+        "operationId" : "login",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The username/password",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Login"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "login success"
+          },
+          "403" : {
+            "description" : "login failed (may be incorrect password or username, user got banned)"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/logout" : {
+      "get" : {
+        "operationId" : "logout",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "logout success"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/studies" : {
+      "get" : {
+        "description" : "Get a list of studies",
+        "operationId" : "findStudies",
+        "parameters" : [ {
+          "name" : "mine",
+          "in" : "query",
+          "description" : "true will return studies of current logged in user, false for getting other studies",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Study"
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "description" : "create a new study",
+        "operationId" : "createStudy",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "study",
+          "description" : "The study to create.",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Study"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK, created"
+          }
+        }
+      }
+    },
+    "/studies/{id}" : {
+      "get" : {
+        "operationId" : "getStudyById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Study ID",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful retrieve the study",
+            "schema" : {
+              "$ref" : "#/definitions/Study"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "deleteStudyById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Study ID",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "study was deleted successfully"
+          }
+        }
+      }
+    },
+    "/studies/{id}/open" : {
+      "get" : {
+        "operationId" : "openStudy",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "id study to open",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/studies/{id}/refreshMesh" : {
+      "get" : {
+        "operationId" : "refreshMesh",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "refresh mesh of study",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/studies/{id}/clone" : {
+      "put" : {
+        "operationId" : "saveStudyAs",
+        "consumes" : [ "application/x-www-form-urlencoded" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "id study to open.",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "name" : "name",
+          "in" : "formData",
+          "description" : "new study name.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/equipments" : {
+      "get" : {
+        "description" : "get all available equipments",
+        "operationId" : "getEquipments",
+        "parameters" : [ {
+          "name" : "energy",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "manufacturer",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "family",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "equip_origin",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "process_type",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "model",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "todo ok",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Equipment"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/equipments/{id}" : {
+      "get" : {
+        "description" : "get equipment by id",
+        "operationId" : "getEquipmentById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Equipment ID",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "todo",
+            "schema" : {
+              "$ref" : "#/definitions/Equipment"
+            }
+          }
+        }
+      }
+    },
+    "/productions/{id}" : {
+      "get" : {
+        "description" : "get production by id",
+        "operationId" : "getProductionById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Production ID",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "todo",
+            "schema" : {
+              "$ref" : "#/definitions/Production"
+            }
+          }
+        }
+      }
+    },
+    "/components" : {
+      "get" : {
+        "description" : "todo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "todo"
+          }
+        }
+      }
+    },
+    "/users" : {
+      "get" : {
+        "description" : "todo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "todo"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Bearer" : {
+      "description" : "For accessing the API a valid JWT token must be passed in all the queries in\nthe 'Authorization' header.\n\n\nA valid JWT token is generated by the API and retourned as answer of a call\nto the route /login giving a valid user & password.\n\n\nThe following syntax must be used in the 'Authorization' header :\n\n    Bearer xxxxxx.yyyyyyy.zzzzzz\n",
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "Login" : {
+      "type" : "object",
+      "properties" : {
+        "username" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Study" : {
+      "type" : "object",
+      "properties" : {
+        "CALCULATION_MODE" : {
+          "type" : "integer"
+        },
+        "CALCULATION_STATUS" : {
+          "type" : "integer"
+        },
+        "CHAINING_ADD_COMP_ENABLE" : {
+          "type" : "integer"
+        },
+        "CHAINING_CONTROLS" : {
+          "type" : "integer"
+        },
+        "CHAINING_NODE_DECIM_ENABLE" : {
+          "type" : "integer"
+        },
+        "COMMENT_TXT" : {
+          "type" : "string"
+        },
+        "CUSTOMER" : {
+          "type" : "string"
+        },
+        "HAS_CHILD" : {
+          "type" : "integer"
+        },
+        "ID_HAVERAGE_RESULTS" : {
+          "type" : "integer"
+        },
+        "ID_PACKING" : {
+          "type" : "integer"
+        },
+        "ID_PRECALC_LDG_RATE_PRM" : {
+          "type" : "integer"
+        },
+        "ID_PRICE" : {
+          "type" : "integer"
+        },
+        "ID_PROD" : {
+          "type" : "integer"
+        },
+        "ID_PRODUCTION" : {
+          "type" : "integer"
+        },
+        "ID_REPORT" : {
+          "type" : "integer"
+        },
+        "ID_STUDY" : {
+          "type" : "integer"
+        },
+        "ID_STUDY_RESULTS" : {
+          "type" : "integer"
+        },
+        "ID_TEMP_RECORD_PTS" : {
+          "type" : "integer"
+        },
+        "ID_USER" : {
+          "type" : "integer"
+        },
+        "OPEN_BY_OWNER" : {
+          "type" : "integer"
+        },
+        "OPTION_CRYOPIPELINE" : {
+          "type" : "integer"
+        },
+        "OPTION_ECO" : {
+          "type" : "integer"
+        },
+        "OPTION_EXHAUSTPIPELINE" : {
+          "type" : "integer"
+        },
+        "PARENT_ID" : {
+          "type" : "integer"
+        },
+        "PARENT_STUD_EQP_ID" : {
+          "type" : "integer"
+        },
+        "STUDY_NAME" : {
+          "type" : "string"
+        },
+        "TO_RECALCULATE" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Equipment" : {
+      "type" : "object",
+      "properties" : {
+        "ID_EQUIP" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Production" : {
+      "type" : "object",
+      "properties" : {
+        "ID_PRODUCTION" : {
+          "type" : "integer"
+        },
+        "ID_STUDY" : {
+          "type" : "integer"
+        },
+        "DAILY_PROD" : {
+          "type" : "number"
+        },
+        "DAILY_STARTUP" : {
+          "type" : "number"
+        },
+        "WEEKLY_PROD" : {
+          "type" : "number"
+        },
+        "PROD_FLOW_RATE" : {
+          "type" : "number"
+        },
+        "NB_PROD_WEEK_PER_YEAR" : {
+          "type" : "number"
+        },
+        "AMBIENT_TEMP" : {
+          "type" : "number"
+        },
+        "AMBIENT_HUM" : {
+          "type" : "number"
+        },
+        "AVG_T_DESIRED" : {
+          "type" : "number"
+        },
+        "AVG_T_INITIAL" : {
+          "type" : "number"
+        },
+        "APPROX_DWELLING_TIME" : {
+          "type" : "number"
+        }
+      }
+    }
+  }
+}

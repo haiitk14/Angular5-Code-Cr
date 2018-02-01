@@ -1,0 +1,54 @@
+<header class="app-header navbar">
+  <button class="navbar-toggler d-lg-none" type="button" appMobileSidebarToggler>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand">
+    <!-- <img src="assets/img/air-liquide-logo-sm.png" alt="" class="img-fluid"> -->
+  </a>
+  <div *ngIf="!!study" class="ml-2">
+    <i class="fa fa-folder-open-o"></i>
+    Study:
+    <strong>{{study.STUDY_NAME}}</strong>
+    <button class="btn btn-sm btn-info" (click)="onShowNotes()">
+      <i class="fa fa-sticky-note-o"></i>
+      Notes
+    </button>
+    <button class="btn btn-sm btn-warning" (click)="onCloseStudy()">
+      <i class="fa fa-close"></i>
+      Close study
+    </button>
+  </div>
+  <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item dropdown d-md-down-none" dropdown placement="bottom right">
+      {{ 'GREETING' | translate:user }}
+    </li>
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle
+        (click)="false">
+        <img src="assets/img/avatars/default.png" class="img-avatar" />
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <div class="dropdown-header text-center">
+          <strong>Account</strong>
+        </div>
+        <a class="dropdown-item" [routerLink]="['/profile']">
+          <i class="fa fa-user"></i> Profile</a>
+        
+        <a class="dropdown-item" [routerLink]="['/settings']">
+          <i class="fa fa-wrench"></i> Settings</a>
+
+        <a class="dropdown-item" [routerLink]="['/references']">
+          <i class="fa fa-database" aria-hidden="true"></i> Reference Data</a>
+
+        <a class="dropdown-item" [routerLink]="['/auth/signout']">
+          <i class="fa fa-lock"></i> Logout</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown d-md-down-none" dropdown placement="bottom right">
+      <a id="admin-menu" class="btn btn-outline-primary mr-1" [routerLink]="['/admin']">
+        <span>{{'ADMINISTRATION'|translate}}</span>
+        <i class="fa fa-cog fa-lg"></i>
+      </a>
+    </li>
+  </ul>
+</header>

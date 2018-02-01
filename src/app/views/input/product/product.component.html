@@ -1,0 +1,327 @@
+<div class="container" *ngIf="!isLoading">
+  <div class="card product-container">
+    <div class="card-header">
+      <strong>{{ 'PRODUCT DEFINITION' | translate }}</strong>
+      <button type="button" class="btn btn-sm btn-success float-right" (click)="modalEditProduct.show()" *ngIf="productShape != 0">
+        <i class="fa fa-pencil-square-o"></i> {{'EDIT'|translate}}
+      </button>
+    </div>
+    <div class="card-body" *ngIf="productShape !== 0">
+      <div class="row">
+        <div class="col-md-2 text-center">
+          <div>{{ product.PRODNAME }}</div>
+          <img [src]="shapeImgShim(availShapes[productShape-1].SHAPEPICT)" class="img-fluid">
+          <div>{{ 'SHAPECODE_'+availShapes[productShape-1].SHAPECODE | translate }}</div>
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <!-- dimension 1 -->
+            <div class="col-md-6 row" *ngIf="productShape != shapeNames.SLAB && productShape != shapeNames.SPHERE">
+              <div class="col-md-4">
+                <label *ngIf="productShape == shapeNames.REC_STAND || productShape == shapeNames.BREAD">{{'Length'|translate}}</label>
+                <label *ngIf="productShape == shapeNames.CYL_LAY || productShape == shapeNames.CYL_STAND">{{'Diameter'|translate}}</label>
+                <label *ngIf="productShape == shapeNames.REC_LAY || productShape == shapeNames.CON_CYL_STAND
+                                   || productShape == shapeNames.CON_CYL_LAY">{{'Height'|translate}}</label>
+              </div>
+              <div class="col-md-8">{{prodDim1 | formatNumber: 2}} m</div>
+            </div>
+            <!-- dimension 3 -->
+            <div class="col-md-6 row" *ngIf="(productShape == shapeNames.REC_STAND || productShape == shapeNames.REC_LAY || productShape == shapeNames.BREAD)">
+              <div class="col-md-4">{{'Width'|translate}}</div>
+              <div class="col-md-8">{{prodDim3 | formatNumber: 2}} m</div>
+            </div>
+            <!-- variable dimension -->
+            <div class="col-md-6 row">
+              <div class="col-md-4">
+                <strong>
+                  <label *ngIf="productShape == shapeNames.REC_STAND || productShape == shapeNames.BREAD 
+                    || productShape == shapeNames.CYL_STAND">{{'Height'|translate}}</label>
+                  <label *ngIf="productShape == shapeNames.SLAB">{{'Thickness'|translate}}</label>
+                  <label *ngIf="productShape == shapeNames.REC_LAY || productShape == shapeNames.CYL_LAY">{{'Length'|translate}}</label>
+                  <label *ngIf="productShape == shapeNames.SPHERE || productShape == shapeNames.CON_CYL_STAND
+                    || productShape == shapeNames.CON_CYL_LAY">{{'Diameter'|translate}}</label>
+                </strong>
+              </div>
+              <div class="col-md-8">{{prodDim2 | formatNumber: 2}} m</div>
+            </div>
+          </div> <!-- /row -->
+          <div class="row border mt-3">
+            <div class="col-md-6 row">
+              <div class="col-md-8">{{'Calculated product mass'|translate}}</div>
+              <div class="col-md-4">{{product.PROD_WEIGHT | formatNumber: 3}} kg</div>
+            </div>
+            <div class="col-md-6 row">
+              <div class="col-md-8"><strong>{{'Real product mass per unit'|translate}}</strong></div>
+              <div class="col-md-4">{{product.PROD_REALWEIGHT | formatNumber: 3}} kg</div>
+            </div>
+          </div>
+        </div><!-- /col-md-10 -->
+      </div>
+    </div> <!-- /.card-body -->    
+    <div *ngIf="productShape === 0" class="text-center card-body">
+      <button class="btn btn-primary btn-lg" (click)="modalEditProduct.show()">{{'DEFINE'|translate}}</button>
+    </div><!-- /.card-body -->
+  </div> <!-- /.card -->
+
+  <div class="card">
+    <div class="card-header">
+      <strong>{{'PRODUCT ELEMENTS'|translate}}</strong>
+      <div class="float-right">
+        <button type="button" class="btn btn-success btn-sm"  data-style="slide-left" [ladda]="laddaAddComponent" (click)="onShowAddElement()">
+          <i class="fa fa-plus"></i> Add
+        </button>
+      </div>
+    </div>
+    <table class="table table-sm table-bordered table-hover mb-0" *ngIf="elements.length > 0">
+      <thead>
+        <tr>
+          <th class="text-center" width="1%"><i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th class="text-center">{{'Component name'|translate}}</th>
+          <th class="text-center">{{'Description'|translate}}</th>
+          <th class="text-center">{{'Specific Dim.'|translate}} (m)</th>
+          <th class="text-center">{{'Calculated Mass'|translate}} (kg)</th>
+          <th class="text-center">{{'Real mass'|translate}} (kg)</th>
+          <th class="text-center" width="1%">{{'Actions'|translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of elements; first as isFirst; last as isLast; let i = index">
+          <td class="text-center nowrap">
+            <a *ngIf="!isFirst" (click)="onMoveUpElement(element)"><i class="fa fa-caret-up" aria-hidden="true"></i></a> 
+            <a *ngIf="!isLast" (click)="onMoveDownElement(element)"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+          </td>
+          <td>{{'components.'+element.ID_COMP|translate}}</td>
+          <td>{{ element.PROD_ELMT_NAME }}</td>
+          <td class="text-right">{{ element.SHAPE_PARAM2 | formatNumber:2 }}</td>
+          <td class="text-right">{{ element.PROD_ELMT_WEIGHT | formatNumber:3 }}</td>
+          <td class="text-right">{{ element.PROD_ELMT_REALWEIGHT | formatNumber:3 }}</td>
+          <td class="text-center nowrap">
+            <button class="btn btn-sm btn-primary" (click)="onEditElement(element)"><i class="fa fa-pencil"></i></button>
+            <button class="btn btn-sm btn-danger" (click)="onRemoveElement(element, i)" [ladda]="laddaDeletingElmts[i]">
+              <i class="fa fa-minus-circle"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card-body text-center text-muted" *ngIf="elements.length == 0">
+      <p>{{'No data to display'|translate}}</p>
+    </div>
+  </div>
+  
+</div>
+
+<div bsModal class="modal fade" #modalEditProduct="bs-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>{{'EDIT PRODUCT'|translate}}</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalEditProduct.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body row">
+        <div class="col-md-4 align-self-center">
+          <img *ngIf="previewImgSrc" [src]="previewImgSrc" class="img-fluid mx-auto d-block">
+        </div>
+        <div class="col-md-8">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input">Product name</label>
+            <div class="col-md-9">
+              <input type="text" id="text-input" name="text-input" class="form-control" [(ngModel)]="productForm.name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="email-input">Product shape</label>
+            <div class="col-md-9">
+              <select [(ngModel)]="productForm.shape" class="form-control" (ngModelChange)="onChangeShape()" >
+                <option *ngFor="let shape of availShapes" [value]="shape.ID_SHAPE">{{ 'SHAPECODE_'+shape.SHAPECODE | translate }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="email-input">Dimension 1</label>
+            <div class="col-md-9">
+              <div class="input-group">
+                <input type="text" name="dim1" class="form-control" [(ngModel)]="productForm.dim1" [disabled]="productForm.shape == 0 || productForm.shape == shapeNames.SLAB || productForm.shape == shapeNames.SPHERE">
+                <span class="input-group-addon">m</span>
+              </div>              
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="email-input">Dimension 2</label>
+            <div class="col-md-9">
+              <div class="input-group">
+                <input type="text" name="dim1" class="form-control" [(ngModel)]="productForm.dim2" [disabled]="productForm.shape == 0 || productForm.shape == shapeNames.SLAB || productForm.shape == shapeNames.SPHERE || 
+                                (productForm.shape == shapeNames.REC_STAND) || (productForm.shape == shapeNames.REC_LAY) || (productForm.shape == shapeNames.BREAD) ||
+                                (productForm.shape == shapeNames.CYL_STAND) || (productForm.shape == shapeNames.CYL_LAY) || (productForm.shape == shapeNames.CON_CYL_STAND) ||
+                                (productForm.shape == shapeNames.CON_CYL_LAY)">
+                <span class="input-group-addon">m</span>
+              </div>              
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="email-input">Dimension 3</label>
+            <div class="col-md-9">
+              <div class="input-group">
+                <input type="text" name="dim1" class="form-control" [(ngModel)]="productForm.dim3" [disabled]="productForm.shape == 0 || productForm.shape == shapeNames.SLAB || productForm.shape == shapeNames.SPHERE || (productForm.shape == shapeNames.CYL_STAND) || (productForm.shape
+                                == shapeNames.CYL_LAY) || (productForm.shape == shapeNames.CON_CYL_STAND) || (productForm.shape == shapeNames.CON_CYL_LAY)">
+                <span class="input-group-addon">m</span>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div><!-- modal-body -->
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" (click)="modalEditProduct.hide()">Cancel</button>
+        <button class="btn btn-primary" (click)="saveProduct()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal class="modal fade" #addElementModal="bs-modal" role="dialog" aria-hidden="true" (onShow)="onEditProductModalShow('onShow', $event)">
+  <div class="modal-dialog" role="document" style="max-width:70%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>ADDING COMPONENTS</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="addElementModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Enter from bottom to top (vertical), left to right (horizontal), core to surface (concentric)
+        </p>
+          <div class="card-group">
+            <div class="card">
+              <div class="card-header">Filter</div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-5">
+                    <p>{{'Component family'|translate}}</p>
+                  </div>
+                  <div class="col-md-7">
+                    <ng-select class="bootstrap" [allowClear]="true" name="compfamily"></ng-select>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-5">
+                    <p>{{'Sub family'|translate}}</p>
+                  </div>
+                  <div class="col-md-7">
+                    <ng-select class="bootstrap" [allowClear]="true" name="subfamily"></ng-select>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-5">
+                    <p>{{'Water percenttage'|translate}}</p>
+                  </div>
+                  <div class="col-md-7">
+                    <ng-select class="bootstrap" [allowClear]="true" name="waterpercent"></ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            <div class="card" *ngIf="components">
+              <div class="card-header">
+                &nbsp;
+                <div>
+                  <div class="input-group input-group-sm" id="components-search-box">
+                    <input type="text" class="form-control" [(ngModel)]="filterString" placeholder="{{'Search'|translate}}" />
+                    <span>
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="list-group">
+                <perfect-scrollbar style="max-height: 250px">
+                  <div class="list-group">
+                    <a *ngFor="let component of (components.active | compFilter: filterString)" class="list-group-item list-group-item-action" 
+                      style="height:30px; padding: 5px 10px;"  [ngClass]="component == selectedAddingElement? 'active' : ''" 
+                      (click)="onSelectAddingElement(component)">
+                      <p>{{ 'components.' + component.ID_COMP.toString() | translate }} - {{component.COMP_VERSION}}</p>
+                    </a>
+                    <h6 class="dropdown-header text-center" *ngIf="components.sleeping">{{'--------------- SLEEPING COMPONENTS ---------------'|translate}}</h6>
+                    <a *ngFor="let component of (components.sleeping | compFilter: filterString)" class="list-group-item list-group-item-action" style="height:30px; padding: 5px 10px;"
+                      [ngClass]="component == selectedAddingElement? 'active' : ''" (click)="onSelectAddingElement(component)">
+                      <p>{{'SCD:'|translate}} {{ 'components.' + component.ID_COMP.toString() | translate }} - {{component.COMP_VERSION}}</p>
+                    </a>
+                  </div>
+                </perfect-scrollbar>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" (click)="addElementModal.hide()">Cancel</button>
+        <button class="btn btn-primary" (click)="onAddElement()" [ladda]="laddaConfirmAddComponent">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal class="modal fade" #editCompModal="bs-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>{{'Product Component'|translate}}</strong>
+        <button class="close" arria-label="Close" data-dismiss="modal" (click)="editCompModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group row">
+            <div class="col-md-4" style="float:right">{{'Description:'|translate}}</div>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input type="text" name="description" class="form-control" [(ngModel)]="elementForm.description">
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-4" style="float:right">{{'Specific Dim.:'|translate}}</div>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input type="text" name="specificDim" class="form-control" [(ngModel)]="elementForm.specific_dim">
+                <span class="input-group-addon">m</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-4" style="float:right">{{'Calculated mass:'|translate}}</div>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input type="text" name="calcMass" class="form-control" disabled [(ngModel)]="elementForm.computed_mass">
+                <span class="input-group-addon">kg</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-4" style="float:right">{{'Real mass:'|translate}}</div>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input type="text" name="realMass" class="form-control" [(ngModel)]="elementForm.real_mass">
+                <span class="input-group-addon">kg</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" (click)="editCompModal.hide()">{{'Cancel'|translate}}</button>
+        <button class="btn btn-primary btn-sm" (click)="updateProductElement()" [ladda]="laddaUpdateElement">{{'Update'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spinner *ngIf="isLoading"></app-spinner>
